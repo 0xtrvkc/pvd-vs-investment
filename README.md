@@ -1,5 +1,6 @@
 # pvd-vs-investment
 
+live: https://0xtrvkc.github.io/pvd-vs-investment/
 Single-file HTML sim comparing two ways your contributions can sit: plain PVD (no growth) vs the same cash compounding in an investment account. Mobile-first, 8-bit, Gundam palette because default Bootstrap blue is depressing.
 
 ## Run it
