@@ -2,483 +2,769 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<title>PVD QUEST — Provident Fund Simulator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=1280, initial-scale=1.0">
+<title>PVD vs. Self-Directed Investing — Retirement Comparison</title>
+<meta name="description" content="A desktop tool comparing staying in your Provident Fund (PVD) vs. opting out and investing the same money yourself — projections, break-even analysis, and year-by-year detail.">
 <style>
   :root{
-    --void-navy:#0A0E1A;
-    --panel-navy:#141C33;
-    --panel-navy-light:#1C2748;
-    --hull-white:#ECEBE4;
-    --hull-dim:#9AA3BF;
-    --fed-blue:#2464C9;
-    --fed-blue-dark:#173F82;
-    --zaku-red:#E62430;
-    --zaku-red-dark:#8C1319;
-    --cmd-yellow:#F5C518;
-    --thruster-cyan:#3FDCE0;
-    --line:#2C3A63;
-    --px:4.8px; /* base pixel unit for borders */
-    --font-pixel:'Press Start 2P', monospace;
-    --font-mono:'JetBrains Mono', monospace;
+    --blue:#0071E3;
+    --blue-dark:#0058B0;
+    --green:#2FB350;
+    --purple:#AF52DE;
+    --orange:#FF9F0A;
+    --red:#FF3B30;
+    --teal:#32ADE6;
+
+    --sky-a:#7FB2FF;
+    --sky-b:#B9A3EE;
+    --sky-c:#8FD9E8;
+
+    --paper:rgba(255,255,255,0.78);
+    --paper-solid:#FFFFFF;
+    --sidebar:rgba(244,245,248,0.85);
+    --card:rgba(255,255,255,0.6);
+    --card-strong:#FFFFFF;
+    --ink:#1D1D1F;
+    --ink-soft:#6E6E73;
+    --ink-faint:#AEAEB2;
+    --hairline:rgba(0,0,0,0.09);
+    --hairline-strong:rgba(0,0,0,0.14);
+    --track:#E5E5EA;
+    --shadow-window:0 30px 80px -20px rgba(0,0,0,0.35), 0 10px 30px -10px rgba(0,0,0,0.2);
+    --shadow-card:0 1px 2px rgba(0,0,0,0.04), 0 1px 0 rgba(0,0,0,0.02);
+    --radius-lg:18px;
+    --radius-md:12px;
+    --radius-sm:8px;
+    --font-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Helvetica,Arial,sans-serif;
+    --font-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Helvetica,Arial,sans-serif;
+    --font-mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,monospace;
+
+    --pvd:#0071E3;
+    --pvd-soft:rgba(0,113,227,0.16);
+    --inv:#AF52DE;
+    --inv-soft:rgba(175,82,222,0.16);
+  }
+
+  html[data-theme="dark"]{
+    --paper:rgba(30,30,32,0.78);
+    --paper-solid:#1E1E20;
+    --sidebar:rgba(24,24,26,0.85);
+    --card:rgba(255,255,255,0.06);
+    --card-strong:#2C2C2E;
+    --ink:#F5F5F7;
+    --ink-soft:#A1A1A6;
+    --ink-faint:#6E6E73;
+    --hairline:rgba(255,255,255,0.09);
+    --hairline-strong:rgba(255,255,255,0.16);
+    --track:#3A3A3C;
+    --shadow-window:0 30px 80px -20px rgba(0,0,0,0.7), 0 10px 30px -10px rgba(0,0,0,0.5);
+    --pvd-soft:rgba(0,113,227,0.28);
+    --inv-soft:rgba(175,82,222,0.28);
   }
 
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  html,body{height:100%;}
   body{
-    background:var(--void-navy);
-    background-image:
-      linear-gradient(var(--line) 1.2px, transparent 1.2px),
-      linear-gradient(90deg, var(--line) 1.2px, transparent 1.2px);
-    background-size:28.8px 28.8px;
+    margin:0;
+    font-family:var(--font-text);
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 800px at 12% -10%, var(--sky-a) 0%, transparent 55%),
+      radial-gradient(1000px 700px at 90% 0%, var(--sky-b) 0%, transparent 55%),
+      radial-gradient(1200px 900px at 50% 120%, var(--sky-c) 0%, transparent 60%),
+      #EDEFF4;
     background-attachment:fixed;
-    color:var(--hull-white);
-    font-family:var(--font-mono);
     min-height:100vh;
-    -webkit-font-smoothing:none;
-    image-rendering:pixelated;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:36px 20px 60px;
+    -webkit-font-smoothing:antialiased;
+    min-width:1180px;
+  }
+  html[data-theme="dark"] body{ background-color:#0B0B0D; }
+
+  ::selection{background:var(--blue); color:#fff;}
+
+  /* ============ WINDOW SHELL ============ */
+  .window{
+    width:100%;
+    max-width:1440px;
+    background:var(--paper);
+    backdrop-filter:blur(30px) saturate(1.4);
+    -webkit-backdrop-filter:blur(30px) saturate(1.4);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-window);
+    border:1px solid var(--hairline);
+    overflow:hidden;
   }
 
-  ::selection{background:var(--cmd-yellow); color:var(--void-navy);}
+  .titlebar{
+    display:flex; align-items:center; gap:16px;
+    padding:12px 18px;
+    border-bottom:1px solid var(--hairline);
+    background:var(--card);
+  }
+  .traffic{display:flex; gap:8px; flex:0 0 auto;}
+  .traffic span{width:12px; height:12px; border-radius:50%; display:block;}
+  .traffic .r{background:#FF5F57;}
+  .traffic .y{background:#FEBC2E;}
+  .traffic .g{background:#28C840;}
+  .titlebar-title{
+    flex:1; text-align:center; font-size:13px; font-weight:600; color:var(--ink-soft);
+    letter-spacing:0.2px;
+    margin-right:132px;
+  }
+  .titlebar-actions{display:flex; gap:8px; flex:0 0 auto;}
 
-  /* ---------- pixel border utility ---------- */
-  .pixel-panel{
-    background:var(--panel-navy);
-    border:var(--px) solid var(--hull-white);
-    box-shadow:
-      0 var(--px) 0 0 var(--fed-blue-dark),
-      var(--px) var(--px) 0 0 var(--fed-blue-dark),
-      0 0 0 var(--px) var(--void-navy);
-    position:relative;
-    image-rendering:pixelated;
+  .seg{
+    display:flex; background:var(--track); border-radius:8px; padding:2px; gap:2px;
   }
-  .pixel-panel::before{
-    content:"";
-    position:absolute; inset:0;
-    box-shadow: inset 0 0 0 2.4px rgba(255,255,255,0.04);
-    pointer-events:none;
+  .seg button{
+    border:none; background:transparent; font-family:var(--font-text); font-size:12px; font-weight:600;
+    padding:5px 10px; border-radius:6px; cursor:pointer; color:var(--ink-soft);
+  }
+  .seg button.active{background:var(--card-strong); color:var(--ink); box-shadow:var(--shadow-card);}
+
+  .icon-btn{
+    width:28px; height:28px; border-radius:8px; border:none; background:var(--card-strong);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:var(--shadow-card);
+    color:var(--ink-soft); font-size:14px;
+  }
+  .icon-btn:hover{color:var(--ink);}
+
+  /* ============ LAYOUT ============ */
+  .layout{display:flex; align-items:flex-start; min-height:640px;}
+
+  .sidebar{
+    width:336px; flex:0 0 336px;
+    background:var(--sidebar);
+    border-right:1px solid var(--hairline);
+    padding:22px 18px 32px;
+    max-height:calc(100vh - 140px);
+    overflow-y:auto;
+  }
+  .sidebar::-webkit-scrollbar{width:8px;}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--hairline-strong); border-radius:4px;}
+
+  .main{flex:1; min-width:0; padding:26px 30px 44px; max-height:calc(100vh - 140px); overflow-y:auto;}
+  .main::-webkit-scrollbar{width:8px;}
+  .main::-webkit-scrollbar-thumb{background:var(--hairline-strong); border-radius:4px;}
+
+  .side-group{margin-bottom:24px;}
+  .side-group-title{
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px;
+    color:var(--ink-faint); margin:0 0 4px; padding:0 2px;
+  }
+  .side-group-desc{font-size:11.5px; color:var(--ink-soft); margin:0 0 10px; padding:0 2px; line-height:1.5;}
+
+  .field{
+    background:var(--card); border:1px solid var(--hairline); border-radius:var(--radius-md);
+    padding:11px 13px 13px; margin-bottom:9px;
+  }
+  .field-row{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; gap:8px;}
+  .field-label{font-size:12.5px; font-weight:600; color:var(--ink);}
+  .field-value{
+    font-family:var(--font-mono); font-size:12.5px; font-weight:600; color:var(--blue);
+    white-space:nowrap;
   }
 
-  .app{max-width:576px; margin:0 auto; padding:0 0 57.6px;}
-
-  /* ---------- HUD HEADER ---------- */
-  .hud{
-    position:sticky; top:0; z-index:20;
-    background:linear-gradient(180deg, var(--void-navy) 70%, transparent);
-    padding:16.8px 16.8px 12px;
-  }
-  .hud-top{
-    display:flex; align-items:center; gap:14.4px;
-    background:var(--panel-navy);
-    border:var(--px) solid var(--hull-white);
-    box-shadow:0 var(--px) 0 0 var(--zaku-red-dark), 0 0 0 var(--px) var(--void-navy);
-    padding:12px 14.4px;
-  }
-  .badge-wrap{flex:0 0 auto;}
-  .hud-title{flex:1; min-width:0;}
-  .hud-title .eyebrow{
-    font-family:var(--font-pixel); font-size:8.4px; letter-spacing:1.2px;
-    color:var(--cmd-yellow); display:block; margin-bottom:7.2px;
-  }
-  .hud-title h1{
-    font-family:var(--font-pixel); font-size:14.4px; margin:0;
-    color:var(--hull-white); line-height:1.6;
-  }
-  .hud-sub{font-size:12px; color:var(--hull-dim); margin-top:7.2px;}
-  .hud-sub b{color:var(--thruster-cyan);}
-
-  .xp-row{margin-top:12px;}
-  .xp-label{
-    display:flex; justify-content:space-between; align-items:baseline;
-    font-family:var(--font-pixel); font-size:8.4px; color:var(--hull-dim); margin-bottom:6px;
-  }
-  .xp-label span.rank{color:var(--cmd-yellow);}
-  .xp-track{
-    height:16.8px; background:var(--void-navy);
-    border:3.6px solid var(--hull-white);
-    padding:2.4px;
-  }
-  .xp-fill{
-    height:100%; width:0%;
-    background:repeating-linear-gradient(90deg, var(--cmd-yellow) 0 7.2px, #d9ac0c 7.2px 9.6px);
-    transition:width .5s steps(20);
-  }
-
-  /* ---------- pixel sprite badge ---------- */
-  svg.badge{display:block; image-rendering:pixelated; shape-rendering:crispEdges;}
-
-  /* ---------- section shell ---------- */
-  section{padding:19.2px 16.8px 0;}
-  .section-head{
-    display:flex; align-items:center; gap:9.6px; margin-bottom:12px;
-  }
-  .section-head .dot{
-    width:12px; height:12px; background:var(--zaku-red); flex:0 0 auto;
-  }
-  .section-head h2{
-    font-family:var(--font-pixel); font-size:10.8px; margin:0; letter-spacing:0.6px;
-    color:var(--hull-white);
-  }
-  .section-note{font-size:12.6px; color:var(--hull-dim); margin:0 0 14.4px; line-height:1.6;}
-
-  /* ---------- input stat blocks ---------- */
-  .stat-grid{display:flex; flex-direction:column; gap:12px;}
-  .stat{
-    padding:12px 14.4px 14.4px;
-  }
-  .stat-row{display:flex; justify-content:space-between; align-items:center; gap:9.6px; margin-bottom:9.6px;}
-  .stat-label{font-size:13.2px; color:var(--hull-white); display:flex; align-items:center; gap:7.2px;}
-  .stat-label .tag{
-    font-family:var(--font-pixel); font-size:7.2px; color:var(--void-navy);
-    background:var(--thruster-cyan); padding:3.6px 4.8px; line-height:1;
-  }
-  .stat-label .tag.core{background:var(--cmd-yellow);}
-  .stat-value-box{
-    font-family:var(--font-pixel); font-size:13.2px; color:var(--cmd-yellow);
-    background:var(--void-navy); border:2.4px solid var(--hull-white);
-    padding:6px 8.4px; min-width:76.8px; text-align:right;
-  }
   input[type=range]{
-    -webkit-appearance:none; appearance:none; width:100%; height:19.2px;
-    background:transparent; margin:0; cursor:pointer;
+    -webkit-appearance:none; appearance:none; width:100%; height:20px; background:transparent; cursor:pointer; margin:0;
   }
   input[type=range]::-webkit-slider-runnable-track{
-    height:12px; background:var(--void-navy); border:2.4px solid var(--hull-white);
+    height:5px; border-radius:3px;
+    background:linear-gradient(to right, var(--blue) 0%, var(--blue) var(--pct,50%), var(--track) var(--pct,50%), var(--track) 100%);
   }
   input[type=range]::-webkit-slider-thumb{
-    -webkit-appearance:none; width:19.2px; height:19.2px; margin-top:-4.8px;
-    background:var(--fed-blue); border:2.4px solid var(--hull-white); cursor:pointer;
+    -webkit-appearance:none; width:18px; height:18px; border-radius:50%;
+    background:#fff; border:1px solid rgba(0,0,0,0.12);
+    box-shadow:0 1px 4px rgba(0,0,0,0.25); margin-top:-6.5px; cursor:pointer;
   }
-  input[type=range]::-moz-range-track{height:12px; background:var(--void-navy); border:2.4px solid var(--hull-white);}
+  input[type=range]::-moz-range-track{height:5px; border-radius:3px; background:var(--track);}
+  input[type=range]::-moz-range-progress{height:5px; border-radius:3px; background:var(--blue);}
   input[type=range]::-moz-range-thumb{
-    width:16.8px; height:16.8px; background:var(--fed-blue); border:2.4px solid var(--hull-white); border-radius:0; cursor:pointer;
+    width:16px; height:16px; border-radius:50%; background:#fff; border:1px solid rgba(0,0,0,0.12);
+    box-shadow:0 1px 4px rgba(0,0,0,0.25); cursor:pointer;
   }
-  .range-minmax{display:flex; justify-content:space-between; font-size:10.8px; color:var(--hull-dim); margin-top:4.8px;}
+  .range-minmax{display:flex; justify-content:space-between; font-size:10px; color:var(--ink-faint); margin-top:4px;}
 
-  .stat.optional{opacity:0.92;}
-  .toggle-row{
-    display:flex; justify-content:space-between; align-items:center;
-    cursor:pointer; user-select:none;
-  }
+  .hint{font-size:11px; color:var(--ink-faint); margin-top:6px; line-height:1.5;}
+
+  .toggle-field{background:var(--card); border:1px solid var(--hairline); border-radius:var(--radius-md); margin-bottom:9px; overflow:hidden;}
+  .toggle-head{display:flex; justify-content:space-between; align-items:center; padding:11px 13px; cursor:pointer; user-select:none;}
+  .toggle-head-text{font-size:12.5px; font-weight:600; color:var(--ink);}
+  .toggle-head-sub{font-size:10.5px; color:var(--ink-soft); margin-top:2px; font-weight:400;}
   .switch{
-    width:40.8px; height:21.6px; background:var(--void-navy); border:2.4px solid var(--hull-white);
-    position:relative; flex:0 0 auto;
+    width:38px; height:22px; border-radius:11px; background:var(--track); position:relative; flex:0 0 auto; transition:background .18s;
   }
   .switch::after{
-    content:""; position:absolute; top:2.4px; left:2.4px; width:12px; height:12px;
-    background:var(--hull-dim); transition:transform .15s steps(3), background .15s;
+    content:""; position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%;
+    background:#fff; box-shadow:0 1px 3px rgba(0,0,0,0.3); transition:transform .18s;
   }
-  .switch.on{background:var(--fed-blue-dark);}
-  .switch.on::after{transform:translateX(19.2px); background:var(--cmd-yellow);}
-  .optional-body{max-height:0; overflow:hidden; transition:max-height .25s;}
-  .optional-body.open{max-height:480px;}
+  .switch.on{background:var(--green);}
+  .switch.on::after{transform:translateX(16px);}
+  .toggle-body{max-height:0; overflow:hidden; transition:max-height .22s ease;}
+  .toggle-body.open{max-height:260px;}
+  .toggle-body-inner{padding:0 13px 13px;}
 
-  /* ---------- outcome cards ---------- */
-  .loot-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-  .loot{
-    padding:14.4px 12px; text-align:left;
+  .preset-row{display:flex; gap:6px; margin-top:2px;}
+  .preset-btn{
+    flex:1; font-family:var(--font-text); font-size:11px; font-weight:600; padding:7px 4px;
+    border-radius:7px; border:1px solid var(--hairline-strong); background:var(--card-strong); color:var(--ink-soft); cursor:pointer;
+    text-align:center; line-height:1.35;
   }
-  .loot .k{
-    font-family:var(--font-pixel); font-size:7.8px; color:var(--hull-dim);
-    display:block; margin-bottom:9.6px; letter-spacing:0.6px;
-  }
-  .loot .v{
-    font-family:var(--font-pixel); font-size:15.6px; line-height:1.5; word-break:break-all;
-  }
-  .loot.pvd .v{color:var(--fed-blue); filter:brightness(1.6);}
-  .loot.inv .v{color:var(--thruster-cyan);}
-  .loot.total{grid-column:1 / -1; background:var(--panel-navy-light);}
-  .loot.total .v{color:var(--cmd-yellow); font-size:19.2px;}
-  .loot .sub{font-size:11.4px; color:var(--hull-dim); margin-top:7.2px;}
+  .preset-btn.active{background:var(--blue); border-color:var(--blue); color:#fff;}
+  .preset-btn.inv.active{background:var(--purple); border-color:var(--purple);}
 
-  /* ---------- chart ---------- */
-  .chart-panel{padding:16.8px 12px 9.6px;}
-  .legend{display:flex; gap:16.8px; font-size:11.4px; margin-bottom:12px; padding-left:4.8px;}
-  .legend span{display:flex; align-items:center; gap:6px; color:var(--hull-dim);}
-  .legend i{width:10.8px; height:10.8px; display:inline-block;}
-  .legend i.pvd{background:var(--fed-blue);}
-  .legend i.inv{background:var(--thruster-cyan);}
+  .reset-btn{
+    width:100%; padding:10px; border-radius:var(--radius-md); border:1px solid var(--hairline-strong);
+    background:var(--card-strong); color:var(--ink); font-family:var(--font-text); font-size:12.5px; font-weight:600;
+    cursor:pointer; margin-top:4px;
+  }
+  .reset-btn:hover{background:var(--track);}
+
+  /* ============ MAIN CONTENT ============ */
+  .page-title{font-family:var(--font-display); font-size:24px; font-weight:700; margin:0 0 3px; letter-spacing:-0.3px;}
+  .page-sub{font-size:13px; color:var(--ink-soft); margin:0 0 22px; line-height:1.6; max-width:760px;}
+
+  /* ---- scoreboard hero ---- */
+  .scoreboard{
+    border-radius:var(--radius-lg); overflow:hidden; margin-bottom:16px;
+    box-shadow:0 16px 40px -18px rgba(0,0,0,0.35);
+    display:grid; grid-template-columns:1fr 1fr;
+    position:relative;
+  }
+  .score-side{padding:24px 26px; color:#fff; position:relative;}
+  .score-side.pvd{background:linear-gradient(135deg,#0071E3 0%,#4C8CFF 100%);}
+  .score-side.inv{background:linear-gradient(135deg,#AF52DE 0%,#8E5CE8 100%);}
+  .score-eyebrow{font-size:11px; font-weight:700; letter-spacing:0.6px; text-transform:uppercase; opacity:0.88; margin:0 0 6px; display:flex; align-items:center; gap:6px;}
+  .score-number{font-family:var(--font-display); font-size:34px; font-weight:750; letter-spacing:-1px; margin:0; line-height:1.08;}
+  .score-caption{font-size:12px; opacity:0.92; margin-top:8px; line-height:1.5;}
+  .score-crown{
+    position:absolute; top:20px; right:22px; font-size:20px; opacity:0; transition:opacity .2s;
+  }
+  .score-crown.show{opacity:1;}
+  .score-vs{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:52px; height:52px; border-radius:50%; background:var(--card-strong);
+    display:flex; align-items:center; justify-content:center; font-family:var(--font-display);
+    font-size:12px; font-weight:800; color:var(--ink-soft); box-shadow:0 4px 14px rgba(0,0,0,0.25); z-index:2;
+    border:3px solid var(--paper-solid);
+  }
+  .score-gap-bar{
+    grid-column:1/-1; background:var(--card-strong); padding:12px 26px; display:flex; align-items:center; gap:14px;
+    border-top:1px solid var(--hairline);
+  }
+  .score-gap-label{font-size:12.5px; font-weight:600; color:var(--ink); white-space:nowrap;}
+  .score-gap-track{flex:1; height:8px; border-radius:5px; background:var(--track); overflow:hidden; display:flex;}
+  .score-gap-fill{height:100%; transition:width .4s;}
+
+  .kpi-grid{display:grid; grid-template-columns:repeat(6,1fr); gap:11px; margin-bottom:20px;}
+  .kpi{
+    background:var(--card); border:1px solid var(--hairline); border-radius:var(--radius-md); padding:14px 14px;
+  }
+  .kpi-label{font-size:10.2px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px; color:var(--ink-faint); margin:0 0 7px; line-height:1.3;}
+  .kpi-value{font-family:var(--font-display); font-size:17px; font-weight:700; margin:0; letter-spacing:-0.2px;}
+  .kpi-value.c-blue{color:var(--blue);}
+  .kpi-value.c-green{color:var(--green);}
+  .kpi-value.c-purple{color:var(--purple);}
+  .kpi-value.c-orange{color:var(--orange);}
+  .kpi-value.c-red{color:var(--red);}
+  .kpi-sub{font-size:10.5px; color:var(--ink-soft); margin-top:6px; line-height:1.5;}
+
+  .panel{
+    background:var(--card); border:1px solid var(--hairline); border-radius:var(--radius-lg);
+    padding:20px 22px 22px; margin-bottom:16px;
+  }
+  .panel-head{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:14px;}
+  .panel-title{font-family:var(--font-display); font-size:15px; font-weight:700; margin:0 0 3px; letter-spacing:-0.1px; display:flex; align-items:center; gap:7px;}
+  .panel-note{font-size:12px; color:var(--ink-soft); margin:0; line-height:1.5; max-width:600px;}
+  .panel-action{
+    font-size:11.5px; font-weight:600; color:var(--blue); background:var(--card-strong);
+    border:1px solid var(--hairline-strong); padding:6px 12px; border-radius:8px; cursor:pointer; white-space:nowrap;
+  }
+  .panel-action:hover{background:var(--track);}
+  .badge{
+    font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; letter-spacing:0.2px;
+  }
+  .badge.pvd{background:var(--pvd-soft); color:var(--blue);}
+  .badge.inv{background:var(--inv-soft); color:var(--purple);}
+
+  .legend{display:flex; gap:18px; font-size:11.5px; margin-bottom:8px; flex-wrap:wrap;}
+  .legend span{display:flex; align-items:center; gap:6px; color:var(--ink-soft); font-weight:500;}
+  .legend i{width:9px; height:9px; border-radius:2.5px; display:inline-block;}
+  .legend i.line{width:14px; height:2px; border-radius:1px;}
+  .legend i.dash{width:14px; height:0; border-top:2px dashed currentColor; background:none;}
+
   svg.chart{width:100%; display:block; overflow:visible;}
-  .axis-label{font-size:9.6px; fill:var(--hull-dim); font-family:var(--font-mono);}
-  .milestone-line{stroke:var(--zaku-red); stroke-width:1; stroke-dasharray:3,3; opacity:.6;}
+  .axis-label{font-size:9.5px; fill:var(--ink-faint); font-family:var(--font-mono);}
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
 
-  /* ---------- quest log table ---------- */
-  .log-wrap{
-    max-height:336px; overflow-y:auto; border:var(--px) solid var(--hull-white);
-    box-shadow:0 var(--px) 0 0 var(--fed-blue-dark), 0 0 0 var(--px) var(--void-navy);
+  /* ---------- insight callouts ---------- */
+  .insight-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .insight{
+    border-radius:var(--radius-md); padding:14px 16px; font-size:12.5px; line-height:1.6; color:var(--ink);
+    border:1px solid var(--hairline-strong); background:var(--card-strong);
   }
-  table{width:100%; border-collapse:collapse; font-size:12.6px;}
-  thead th{
-    position:sticky; top:0; background:var(--fed-blue-dark);
-    font-family:var(--font-pixel); font-size:7.8px; color:var(--hull-white);
-    padding:9.6px 7.2px; text-align:right; border-bottom:2.4px solid var(--hull-white);
-  }
-  thead th:first-child, tbody td:first-child{text-align:left;}
-  tbody td{padding:7.2px; text-align:right; border-bottom:1.2px solid var(--line); color:var(--hull-white);}
-  tbody tr:nth-child(odd){background:rgba(255,255,255,0.02);}
-  tbody tr.milestone td{background:rgba(245,197,24,0.08); color:var(--cmd-yellow);}
-  tbody tr.milestone td:first-child::after{content:" ★"; color:var(--cmd-yellow);}
+  .insight b{font-weight:700;}
+  .insight .ico{font-size:15px; margin-right:6px;}
 
-  /* ---------- footer note ---------- */
-  .assumptions{
-    margin-top:19.2px; padding:14.4px; font-size:12px; color:var(--hull-dim); line-height:1.7;
+  /* ---------- comparison table ---------- */
+  .compare-table{width:100%; border-collapse:collapse; font-size:12.5px;}
+  .compare-table th{
+    text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:0.3px; color:var(--ink-faint);
+    padding:8px 12px; border-bottom:1px solid var(--hairline-strong);
   }
-  .assumptions b{color:var(--hull-white);}
+  .compare-table td{padding:10px 12px; border-bottom:1px solid var(--hairline); vertical-align:top; color:var(--ink); line-height:1.5;}
+  .compare-table tr:last-child td{border-bottom:none;}
+  .compare-table td:first-child{font-weight:600; color:var(--ink-soft); width:16%; white-space:nowrap;}
+  .compare-table td.pvd-col{width:42%; border-left:2px solid var(--pvd-soft);}
+  .compare-table td.inv-col{width:42%; border-left:2px solid var(--inv-soft);}
 
-  .display-toggle{
-    display:flex; gap:0; margin:14.4px 16.8px 0; border:2.4px solid var(--hull-white);
+  /* ---------- data table ---------- */
+  .table-wrap{max-height:380px; overflow-y:auto; border-radius:var(--radius-md); border:1px solid var(--hairline);}
+  .table-wrap::-webkit-scrollbar{width:8px;}
+  .table-wrap::-webkit-scrollbar-thumb{background:var(--hairline-strong); border-radius:4px;}
+  table.log{width:100%; border-collapse:collapse; font-size:11.6px; font-family:var(--font-mono);}
+  table.log thead th{
+    position:sticky; top:0; background:var(--card-strong);
+    font-family:var(--font-text); font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px;
+    color:var(--ink-soft); padding:9px 10px; text-align:right; border-bottom:1px solid var(--hairline-strong); z-index:1;
   }
-  .display-toggle button{
-    flex:1; font-family:var(--font-pixel); font-size:8.4px; padding:9.6px 4.8px;
-    background:var(--panel-navy); color:var(--hull-dim); border:none; cursor:pointer;
-  }
-  .display-toggle button.active{background:var(--fed-blue); color:var(--hull-white);}
+  table.log thead th:first-child, table.log tbody td:first-child{text-align:left;}
+  table.log tbody td{padding:7px 10px; text-align:right; border-bottom:1px solid var(--hairline); color:var(--ink);}
+  table.log tbody tr:nth-child(even){background:rgba(127,127,127,0.045);}
+  table.log tbody tr.milestone td{background:rgba(255,159,10,0.10); font-weight:700;}
+  table.log tbody tr.milestone td:first-child::after{content:" ●"; color:var(--orange); font-size:8px; vertical-align:middle;}
+  table.log td.win-pvd{color:var(--blue); font-weight:700;}
+  table.log td.win-inv{color:var(--purple); font-weight:700;}
 
-  footer{
-    text-align:center; font-size:10.8px; color:var(--hull-dim);
-    padding:24px 16.8px 0; font-family:var(--font-pixel); line-height:2;
+  .assumptions{font-size:12.5px; color:var(--ink-soft); line-height:1.75;}
+  .assumptions b{color:var(--ink); font-weight:600;}
+  .assumptions ul{margin:8px 0; padding-left:18px;}
+  .assumptions li{margin-bottom:5px;}
+  .fixnote{
+    margin:10px 0; padding:11px 14px; background:rgba(47,179,80,0.10); border:1px solid rgba(47,179,80,0.32);
+    border-radius:var(--radius-sm); font-size:11.8px; color:var(--ink-soft); line-height:1.6;
   }
+  .fixnote b{color:var(--ink);}
+  .disclaimer{
+    margin-top:14px; padding:12px 14px; background:rgba(255,159,10,0.10); border:1px solid rgba(255,159,10,0.3);
+    border-radius:var(--radius-sm); font-size:11.5px; color:var(--ink-soft); line-height:1.6;
+  }
+  .disclaimer b{color:var(--ink);}
 
-  @media (prefers-reduced-motion: reduce){
-    .xp-fill{transition:none;} .optional-body{transition:none;}
+  footer{text-align:center; font-size:11px; color:var(--ink-faint); padding:18px 0 0;}
+
+  @media print{
+    body{background:#fff; padding:0;}
+    .window{box-shadow:none; border:none; max-width:100%;}
+    .sidebar, .titlebar-actions, .panel-action{display:none !important;}
+    .layout{display:block;}
+    .main{max-height:none; overflow:visible; padding:0;}
   }
 </style>
 </head>
 <body>
-<div class="app">
+<div class="window">
 
-  <div class="hud">
-    <div class="hud-top pixel-panel">
-      <div class="badge-wrap">
-        <svg class="badge" id="pilotBadge" width="62" height="62" viewBox="0 0 14 14"></svg>
+  <div class="titlebar">
+    <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="titlebar-title">PVD vs. Self-Directed Investing</div>
+    <div class="titlebar-actions">
+      <div class="seg" id="unitSeg">
+        <button id="unitFull" class="active" data-unit="full">฿</button>
+        <button id="unitK" data-unit="k">฿K</button>
       </div>
-      <div class="hud-title">
-        <span class="eyebrow">PVD QUEST · PROVIDENT FUND SIM</span>
-        <h1>PILOT LEDGER</h1>
-        <div class="hud-sub">Rank: <b id="rankName">RECRUIT</b> · Net worth at exit: <b id="hudTotal">฿0</b></div>
-      </div>
-    </div>
-    <div class="xp-row">
-      <div class="xp-label"><span>SERVICE PROGRESS</span><span class="rank" id="xpPct">0%</span></div>
-      <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+      <button class="icon-btn" id="themeToggle" title="Toggle light/dark">◐</button>
     </div>
   </div>
 
-  <div class="display-toggle">
-    <button id="unitFull" class="active">฿ FULL VALUE</button>
-    <button id="unitK">฿ THOUSANDS (K)</button>
-  </div>
+  <div class="layout">
 
-  <!-- CORE STATS -->
-  <section>
-    <div class="section-head"><span class="dot"></span><h2>PILOT STATS — CORE</h2></div>
-    <p class="section-note">Set your service timeline and salary path. Every field updates the simulation live.</p>
-    <div class="stat-grid">
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
 
-      <div class="stat pixel-panel">
-        <div class="stat-row">
-          <span class="stat-label"><span class="tag core">AGE</span>Starting age</span>
-          <span class="stat-value-box" id="val-startAge">28</span>
+      <div class="side-group">
+        <p class="side-group-title">Career &amp; salary</p>
+        <p class="side-group-desc">Your working years and salary path — the base both scenarios contribute from.</p>
+
+        <div class="field">
+          <div class="field-row"><span class="field-label">Starting age</span><span class="field-value" id="val-startAge">28</span></div>
+          <input type="range" id="startAge" min="18" max="60" step="1" value="28">
+          <div class="range-minmax"><span>18</span><span>60</span></div>
         </div>
-        <input type="range" id="startAge" min="18" max="60" step="1" value="28">
-        <div class="range-minmax"><span>18</span><span>60</span></div>
+
+        <div class="field">
+          <div class="field-row"><span class="field-label">Retirement age</span><span class="field-value" id="val-endAge">60</span></div>
+          <input type="range" id="endAge" min="19" max="70" step="1" value="60">
+          <div class="range-minmax"><span>19</span><span>70</span></div>
+        </div>
+
+        <div class="field">
+          <div class="field-row"><span class="field-label">Starting salary /yr</span><span class="field-value" id="val-startSalary">200,000</span></div>
+          <input type="range" id="startSalary" min="100000" max="3000000" step="10000" value="200000">
+          <div class="range-minmax"><span>100K</span><span>3M</span></div>
+        </div>
+
+        <div class="field">
+          <div class="field-row"><span class="field-label">Annual salary growth</span><span class="field-value" id="val-salaryGrowth">3.0%</span></div>
+          <input type="range" id="salaryGrowth" min="0" max="15" step="0.1" value="3">
+          <div class="range-minmax"><span>0%</span><span>15%</span></div>
+        </div>
       </div>
 
-      <div class="stat pixel-panel">
-        <div class="stat-row">
-          <span class="stat-label"><span class="tag core">AGE</span>Retirement (end) age</span>
-          <span class="stat-value-box" id="val-endAge">60</span>
-        </div>
-        <input type="range" id="endAge" min="19" max="70" step="1" value="60">
-        <div class="range-minmax"><span>19</span><span>70</span></div>
-      </div>
+      <div class="side-group">
+        <p class="side-group-title">PVD contribution rates</p>
+        <p class="side-group-desc">Thai law allows 2–15% of salary per side. This is also the amount you'd redirect into self-investing if you opt out.</p>
 
-      <div class="stat pixel-panel">
-        <div class="stat-row">
-          <span class="stat-label"><span class="tag core">฿/YR</span>Starting salary</span>
-          <span class="stat-value-box" id="val-startSalary">200,000</span>
-        </div>
-        <input type="range" id="startSalary" min="100000" max="3000000" step="10000" value="200000">
-        <div class="range-minmax"><span>100K</span><span>3M</span></div>
-      </div>
-
-      <div class="stat pixel-panel">
-        <div class="stat-row">
-          <span class="stat-label"><span class="tag core">%/YR</span>Salary growth rate</span>
-          <span class="stat-value-box" id="val-salaryGrowth">3.0%</span>
-        </div>
-        <input type="range" id="salaryGrowth" min="0" max="15" step="0.1" value="3">
-        <div class="range-minmax"><span>0%</span><span>15%</span></div>
-      </div>
-
-      <div class="stat pixel-panel">
-        <div class="stat-row">
-          <span class="stat-label"><span class="tag core">%</span>Employee PVD rate</span>
-          <span class="stat-value-box" id="val-pvdEmployee">3.0%</span>
-        </div>
-        <input type="range" id="pvdEmployee" min="2" max="15" step="0.5" value="3">
-        <div class="range-minmax"><span>2%</span><span>15%</span></div>
-      </div>
-
-      <div class="stat pixel-panel">
-        <div class="stat-row">
-          <span class="stat-label"><span class="tag core">%/YR</span>Investment return rate</span>
-          <span class="stat-value-box" id="val-investReturn">8.0%</span>
-        </div>
-        <input type="range" id="investReturn" min="0" max="25" step="0.5" value="8">
-        <div class="range-minmax"><span>0%</span><span>25%</span></div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- DETECTED / BONUS STATS -->
-  <section>
-    <div class="section-head"><span class="dot" style="background:var(--thruster-cyan)"></span><h2>DETECTED PARAMETERS</h2></div>
-    <p class="section-note">Your sheet implied a few more variables — flip these on to fine-tune the simulation. Off = simplest model.</p>
-    <div class="stat-grid">
-
-      <div class="stat pixel-panel optional" id="wrap-employerToggle">
-        <div class="toggle-row" id="toggle-employer">
-          <span class="stat-label"><span class="tag">EMPLOYER</span>Separate employer match %</span>
-          <div class="switch" id="switch-employer"></div>
-        </div>
-        <div class="optional-body" id="body-employer">
-          <div class="stat-row" style="margin-top:10px;">
-            <span class="stat-label" style="font-size:12px;">Employer PVD rate</span>
-            <span class="stat-value-box" id="val-pvdEmployer">3.0%</span>
-          </div>
-          <input type="range" id="pvdEmployer" min="2" max="15" step="0.5" value="3">
+        <div class="field">
+          <div class="field-row"><span class="field-label">Your (employee) rate</span><span class="field-value" id="val-pvdEmployee">3.0%</span></div>
+          <input type="range" id="pvdEmployee" min="2" max="15" step="0.5" value="3">
           <div class="range-minmax"><span>2%</span><span>15%</span></div>
         </div>
-      </div>
 
-      <div class="stat pixel-panel optional" id="wrap-investDelay">
-        <div class="toggle-row" id="toggle-investDelay">
-          <span class="stat-label"><span class="tag">DELAY</span>Investment starts later</span>
-          <div class="switch" id="switch-investDelay"></div>
-        </div>
-        <div class="optional-body" id="body-investDelay">
-          <div class="stat-row" style="margin-top:10px;">
-            <span class="stat-label" style="font-size:12px;">Investment start age</span>
-            <span class="stat-value-box" id="val-investStartAge">33</span>
+        <div class="toggle-field">
+          <div class="toggle-head" id="toggle-employer">
+            <div><div class="toggle-head-text">Different employer rate</div><div class="toggle-head-sub">Off = matches your rate 1:1</div></div>
+            <div class="switch" id="switch-employer"></div>
           </div>
-          <input type="range" id="investStartAge" min="28" max="60" step="1" value="33">
-          <div class="range-minmax"><span>28</span><span>60</span></div>
-        </div>
-      </div>
-
-      <div class="stat pixel-panel optional" id="wrap-existing">
-        <div class="toggle-row" id="toggle-existing">
-          <span class="stat-label"><span class="tag">HEAD START</span>Existing PVD balance today</span>
-          <div class="switch" id="switch-existing"></div>
-        </div>
-        <div class="optional-body" id="body-existing">
-          <div class="stat-row" style="margin-top:10px;">
-            <span class="stat-label" style="font-size:12px;">Current balance (฿)</span>
-            <span class="stat-value-box" id="val-existingBalance">0</span>
+          <div class="toggle-body" id="body-employer">
+            <div class="toggle-body-inner">
+              <div class="field-row" style="margin-top:2px;"><span class="field-label">Employer rate</span><span class="field-value" id="val-pvdEmployer">3.0%</span></div>
+              <input type="range" id="pvdEmployer" min="0" max="15" step="0.5" value="3">
+              <div class="range-minmax"><span>0%</span><span>15%</span></div>
+            </div>
           </div>
-          <input type="range" id="existingBalance" min="0" max="2000000" step="10000" value="0">
-          <div class="range-minmax"><span>0</span><span>2M</span></div>
         </div>
       </div>
 
-      <div class="stat pixel-panel optional" id="wrap-inflation">
-        <div class="toggle-row" id="toggle-inflation">
-          <span class="stat-label"><span class="tag">REAL ฿</span>Adjust for inflation</span>
-          <div class="switch" id="switch-inflation"></div>
+      <div class="side-group">
+        <p class="side-group-title">Scenario A — Stay in PVD</p>
+        <p class="side-group-desc">Your registered PVD fund invests contributions per its policy. Pick a realistic long-run return, not a single good year.</p>
+
+        <div class="preset-row" id="presetRowPvd">
+          <button class="preset-btn" data-return="0">No growth<br>0%</button>
+          <button class="preset-btn active" data-return="2">Conservative<br>2%</button>
+          <button class="preset-btn" data-return="4">Balanced<br>4%</button>
         </div>
-        <div class="optional-body" id="body-inflation">
-          <div class="stat-row" style="margin-top:10px;">
-            <span class="stat-label" style="font-size:12px;">Inflation rate / yr</span>
-            <span class="stat-value-box" id="val-inflation">2.5%</span>
+        <div class="field" style="margin-top:10px;">
+          <div class="field-row"><span class="field-label">PVD fund return</span><span class="field-value" id="val-pvdReturn">2.0%</span></div>
+          <input type="range" id="pvdReturn" min="0" max="12" step="0.5" value="2">
+          <div class="range-minmax"><span>0%</span><span>12%</span></div>
+          <div class="hint">The original spreadsheet assumed 0% growth — just a running total of contributions. Real PVD funds invest, so a small positive return is more realistic.</div>
+        </div>
+      </div>
+
+      <div class="side-group">
+        <p class="side-group-title">Scenario B — Opt out, invest yourself</p>
+        <p class="side-group-desc">You keep your own share instead of sending it to PVD, and invest it on your own.</p>
+
+        <div class="preset-row" id="presetRowInv">
+          <button class="preset-btn inv" data-return="4">Conservative<br>4%</button>
+          <button class="preset-btn inv active" data-return="8">Moderate<br>8%</button>
+          <button class="preset-btn inv" data-return="12">Growth<br>12%</button>
+        </div>
+        <div class="field" style="margin-top:10px;">
+          <div class="field-row"><span class="field-label">Investment return</span><span class="field-value" id="val-investReturn">8.0%</span></div>
+          <input type="range" id="investReturn" min="0" max="20" step="0.5" value="8">
+          <div class="range-minmax"><span>0%</span><span>20%</span></div>
+          <div class="hint" id="doubleHint"></div>
+        </div>
+
+        <div class="toggle-field">
+          <div class="toggle-head" id="toggle-employerCash">
+            <div><div class="toggle-head-text">Employer pays match as cash</div><div class="toggle-head-sub">Off = match is forfeited (typical)</div></div>
+            <div class="switch" id="switch-employerCash"></div>
           </div>
-          <input type="range" id="inflation" min="0" max="10" step="0.1" value="2.5">
-          <div class="range-minmax"><span>0%</span><span>10%</span></div>
-          <p class="section-note" style="margin:8px 0 0;">Shows final results in today's purchasing power.</p>
+          <div class="toggle-body" id="body-employerCash">
+            <div class="toggle-body-inner">
+              <div class="hint">Most employers only contribute the match <em>into PVD</em> — if you opt out, that money is simply not paid. Turn this on only if your employer explicitly pays the equivalent in cash salary instead.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-field">
+          <div class="toggle-head" id="toggle-drag">
+            <div><div class="toggle-head-text">Fees &amp; tax drag</div><div class="toggle-head-sub">Reduces net investment return</div></div>
+            <div class="switch" id="switch-drag"></div>
+          </div>
+          <div class="toggle-body" id="body-drag">
+            <div class="toggle-body-inner">
+              <div class="field-row" style="margin-top:2px;"><span class="field-label">Drag on returns</span><span class="field-value" id="val-drag">1.0%</span></div>
+              <input type="range" id="drag" min="0" max="5" step="0.25" value="1">
+              <div class="range-minmax"><span>0%</span><span>5%</span></div>
+              <div class="hint">Brokerage fees, fund expenses, and capital-gains/dividend tax that PVD is exempt from until withdrawal.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-field">
+          <div class="toggle-head" id="toggle-tax">
+            <div><div class="toggle-head-text">Account for income tax</div><div class="toggle-head-sub">PVD contributions are pre-tax</div></div>
+            <div class="switch" id="switch-tax"></div>
+          </div>
+          <div class="toggle-body" id="body-tax">
+            <div class="toggle-body-inner">
+              <div class="field-row" style="margin-top:2px;"><span class="field-label">Your marginal tax rate</span><span class="field-value" id="val-taxRate">10%</span></div>
+              <input type="range" id="taxRate" min="0" max="35" step="1" value="10">
+              <div class="range-minmax"><span>0%</span><span>35%</span></div>
+              <div class="hint">PVD contributions are deducted from taxable income. To fund the same take-home pay, self-investing must come from already-taxed money — this shrinks what you actually have left to invest.</div>
+            </div>
+          </div>
         </div>
       </div>
 
-    </div>
-  </section>
+      <div class="side-group">
+        <p class="side-group-title">Adjustments</p>
 
-  <!-- OUTCOME -->
-  <section>
-    <div class="section-head"><span class="dot" style="background:var(--cmd-yellow)"></span><h2>MISSION REWARDS</h2></div>
-    <div class="loot-grid">
-      <div class="loot pvd pixel-panel">
-        <span class="k">PVD FUND</span>
-        <span class="v" id="out-pvd">฿0</span>
-        <div class="sub" id="out-pvd-sub">employee + employer, no growth</div>
+        <div class="toggle-field">
+          <div class="toggle-head" id="toggle-existing">
+            <div><div class="toggle-head-text">Existing PVD balance</div><div class="toggle-head-sub">Head start from a prior job</div></div>
+            <div class="switch" id="switch-existing"></div>
+          </div>
+          <div class="toggle-body" id="body-existing">
+            <div class="toggle-body-inner">
+              <div class="field-row" style="margin-top:2px;"><span class="field-label">Current balance (฿)</span><span class="field-value" id="val-existingBalance">0</span></div>
+              <input type="range" id="existingBalance" min="0" max="2000000" step="10000" value="0">
+              <div class="range-minmax"><span>0</span><span>2M</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-field">
+          <div class="toggle-head" id="toggle-inflation">
+            <div><div class="toggle-head-text">Adjust for inflation</div><div class="toggle-head-sub">Show real chart in today's money</div></div>
+            <div class="switch" id="switch-inflation"></div>
+          </div>
+          <div class="toggle-body" id="body-inflation">
+            <div class="toggle-body-inner">
+              <div class="field-row" style="margin-top:2px;"><span class="field-label">Inflation /yr</span><span class="field-value" id="val-inflation">2.5%</span></div>
+              <input type="range" id="inflation" min="0" max="10" step="0.1" value="2.5">
+              <div class="range-minmax"><span>0%</span><span>10%</span></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="loot inv pixel-panel">
-        <span class="k">INVESTMENT</span>
-        <span class="v" id="out-inv">฿0</span>
-        <div class="sub" id="out-inv-sub">compounding @ 0%</div>
+
+      <button class="reset-btn" id="resetBtn">Reset to defaults</button>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main">
+      <h1 class="page-title">Should you stay in PVD, or invest the money yourself?</h1>
+      <p class="page-sub">You put part of your salary into your Provident Fund every month, and your employer matches it. This tool asks the real question: <b>what if you skipped PVD and invested that same money yourself instead?</b> Adjust any control on the left — every number and chart below updates live.</p>
+
+      <!-- Scoreboard -->
+      <div class="scoreboard">
+        <div class="score-side pvd">
+          <div class="score-crown" id="crown-pvd">🏆</div>
+          <p class="score-eyebrow"><span class="badge pvd" style="background:rgba(255,255,255,0.25); color:#fff;">Scenario A</span> Stay in PVD</p>
+          <p class="score-number" id="out-pvd">฿0</p>
+          <p class="score-caption" id="out-pvd-sub">Employee + employer contributions, fund growth</p>
+        </div>
+        <div class="score-side inv">
+          <div class="score-crown" id="crown-inv">🏆</div>
+          <p class="score-eyebrow"><span class="badge inv" style="background:rgba(255,255,255,0.25); color:#fff;">Scenario B</span> Invest it yourself</p>
+          <p class="score-number" id="out-inv">฿0</p>
+          <p class="score-caption" id="out-inv-sub">Your contribution only, invested on your own</p>
+        </div>
+        <div class="score-vs">VS</div>
+        <div class="score-gap-bar">
+          <span class="score-gap-label" id="gap-label">Even so far</span>
+          <div class="score-gap-track">
+            <div class="score-gap-fill" id="gap-fill-pvd" style="background:var(--blue); width:50%;"></div>
+            <div class="score-gap-fill" id="gap-fill-inv" style="background:var(--purple); width:50%;"></div>
+          </div>
+          <span class="score-gap-label" id="gap-pct">—</span>
+        </div>
       </div>
-      <div class="loot total pixel-panel">
-        <span class="k">TOTAL NET WORTH AT EXIT</span>
-        <span class="v" id="out-total">฿0</span>
-        <div class="sub" id="out-total-sub">0 years of service</div>
+
+      <div class="kpi-grid">
+        <div class="kpi">
+          <p class="kpi-label">PVD balance at retirement</p>
+          <p class="kpi-value c-blue" id="kpi-pvd">฿0</p>
+          <p class="kpi-sub" id="kpi-pvd-sub">—</p>
+        </div>
+        <div class="kpi">
+          <p class="kpi-label">Self-invest balance</p>
+          <p class="kpi-value c-purple" id="kpi-inv">฿0</p>
+          <p class="kpi-sub" id="kpi-inv-sub">—</p>
+        </div>
+        <div class="kpi">
+          <p class="kpi-label">Gap at retirement</p>
+          <p class="kpi-value" id="kpi-gap">฿0</p>
+          <p class="kpi-sub" id="kpi-gap-sub">—</p>
+        </div>
+        <div class="kpi">
+          <p class="kpi-label">Employer match forfeited</p>
+          <p class="kpi-value c-orange" id="kpi-forfeit">฿0</p>
+          <p class="kpi-sub" id="kpi-forfeit-sub">Future value if opting out</p>
+        </div>
+        <div class="kpi">
+          <p class="kpi-label">Break-even return needed</p>
+          <p class="kpi-value c-red" id="kpi-breakeven">0.0%</p>
+          <p class="kpi-sub" id="kpi-breakeven-sub">To match PVD, self-invest alone must earn this</p>
+        </div>
+        <div class="kpi">
+          <p class="kpi-label">Winner's growth multiple</p>
+          <p class="kpi-value c-green" id="kpi-multiple">1.0×</p>
+          <p class="kpi-sub" id="kpi-multiple-sub">Balance ÷ money actually put in</p>
+        </div>
       </div>
-    </div>
-  </section>
 
-  <!-- CHART -->
-  <section>
-    <div class="section-head"><span class="dot" style="background:var(--fed-blue)"></span><h2>GROWTH TRAJECTORY</h2></div>
-    <div class="legend">
-      <span><i class="pvd"></i>PVD accumulated</span>
-      <span><i class="inv"></i>Investment accumulated</span>
-    </div>
-    <div class="chart-panel pixel-panel">
-      <svg class="chart" id="chartSvg" viewBox="0 0 400 220"></svg>
-    </div>
-  </section>
+      <!-- Key insights -->
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="panel-title">📌 Summary</p>
+            <p class="panel-note">The headline takeaways for your current settings.</p>
+          </div>
+        </div>
+        <div class="insight-grid" id="insightGrid"></div>
+      </div>
 
-  <!-- TABLE -->
-  <section>
-    <div class="section-head"><span class="dot" style="background:var(--zaku-red)"></span><h2>QUEST LOG (YEAR BY YEAR)</h2></div>
-    <div class="log-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Age</th><th>Salary</th><th>PVD acc.</th><th>Invest. acc.</th><th>Total</th>
-          </tr>
-        </thead>
-        <tbody id="logBody"></tbody>
-      </table>
-    </div>
-  </section>
+      <!-- Growth trajectory -->
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="panel-title">Growth trajectory — PVD vs. self-invest</p>
+            <p class="panel-note">Both balances, year by year. The shaded band shows who's ahead at each age.</p>
+          </div>
+          <button class="panel-action" id="exportCsv">Export CSV</button>
+        </div>
+        <div class="legend">
+          <span><i class="line" style="background:var(--blue)"></i>PVD balance</span>
+          <span><i class="line" style="background:var(--purple)"></i>Self-invest balance</span>
+        </div>
+        <svg class="chart" id="chartTrajectory" viewBox="0 0 900 300"></svg>
+      </div>
 
-  <div class="assumptions pixel-panel" style="margin:16px 14px 0;">
-    <b>How this is calculated —</b><br>
-    Salary compounds yearly at your growth rate. Each year's PVD contribution = salary × (employee % + employer %), added to a non-invested PVD balance. From the investment start age onward, that same year's PVD contribution is <i>also</i> routed into an investment account that compounds annually at your chosen return rate. Toggle inflation to view results in today's money.
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-title">Where the money comes from</p>
+              <p class="panel-note">Final balance split by source, for each scenario.</p>
+            </div>
+          </div>
+          <div class="legend" id="compLegend"></div>
+          <svg class="chart" id="chartComposition" viewBox="0 0 420 200"></svg>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-title">Break-even analysis</p>
+              <p class="panel-note">What self-invest return rate is needed to match PVD?</p>
+            </div>
+          </div>
+          <div class="legend" id="sensLegend"></div>
+          <svg class="chart" id="chartSensitivity" viewBox="0 0 420 220"></svg>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="panel-title">Real (inflation-adjusted) comparison</p>
+            <p class="panel-note">Both balances re-stated in today's purchasing power, so the comparison isn't flattered by inflation.</p>
+          </div>
+        </div>
+        <div class="legend">
+          <span><i class="line" style="background:var(--blue)"></i>PVD (real)</span>
+          <span><i class="line" style="background:var(--purple)"></i>Self-invest (real)</span>
+        </div>
+        <svg class="chart" id="chartReal" viewBox="0 0 900 220"></svg>
+      </div>
+
+      <!-- Qualitative comparison -->
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="panel-title">Beyond the math — qualitative differences</p>
+            <p class="panel-note">Numbers aren't the whole decision. These factors matter too.</p>
+          </div>
+        </div>
+        <table class="compare-table">
+          <thead><tr><th></th><th>PVD (stay in)</th><th>Self-directed investing</th></tr></thead>
+          <tbody>
+            <tr><td>Employer match</td><td class="pvd-col">Guaranteed — an instant, risk-free return on your own contribution.</td><td class="inv-col">None, unless your employer explicitly pays the match as cash salary.</td></tr>
+            <tr><td>Tax treatment</td><td class="pvd-col">Contributions reduce taxable income; growth is tax-exempt until withdrawal.</td><td class="inv-col">Contributions come from already-taxed income; gains may face fees, dividend tax, or capital-gains tax depending on the vehicle.</td></tr>
+            <tr><td>Investment control</td><td class="pvd-col">Limited to your fund's policy options (money market, fixed income, balanced, equity).</td><td class="inv-col">Full control — any asset class, fund, or strategy you choose.</td></tr>
+            <tr><td>Liquidity</td><td class="pvd-col">Locked until resignation, retirement, or fund-permitted early withdrawal (often with tax penalty).</td><td class="inv-col">Generally liquid — you can sell and access cash any time.</td></tr>
+            <tr><td>Discipline</td><td class="pvd-col">Automatic payroll deduction — contributions happen whether you remember to or not.</td><td class="inv-col">Requires self-discipline to actually invest every month rather than spend it.</td></tr>
+            <tr><td>Fees</td><td class="pvd-col">Fund management fees, typically low and disclosed by the AMC.</td><td class="inv-col">Brokerage, fund, or platform fees vary widely by what you choose.</td></tr>
+            <tr><td>Risk exposure</td><td class="pvd-col">Bounded by your selected policy risk level; diversified by the AMC.</td><td class="inv-col">Depends entirely on what you pick — can be higher or lower risk than PVD.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="panel-title">Year-by-year schedule</p>
+            <p class="panel-note">Full contribution and balance detail for every year, both scenarios side by side.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="log">
+            <thead>
+              <tr>
+                <th>Age</th><th>Salary</th>
+                <th>PVD Employee</th><th>PVD Employer</th><th>PVD Balance</th>
+                <th>Self-Invest Contrib.</th><th>Self-Invest Balance</th>
+                <th>Gap (B − A)</th>
+              </tr>
+            </thead>
+            <tbody id="logBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <p class="panel-title" style="margin-bottom:10px;">How this is calculated</p>
+        <div class="assumptions">
+          Each year your salary grows by your chosen rate. In <b>Scenario A</b>, you and your employer each contribute a percentage of that year's salary into PVD; the running balance compounds annually at your chosen PVD fund return. In <b>Scenario B</b>, you keep your own contribution instead (same amount, same schedule) and invest it yourself; that balance compounds annually at your chosen investment return, net of any fees/tax drag you've enabled. The employer match is not received in Scenario B unless you've explicitly turned that toggle on.
+          <div class="fixnote"><b>Fixed from the original spreadsheet:</b> the source file's "investment" column referenced the cumulative PVD total instead of the employee's own annual contribution, and PVD balances were summed with no investment return at all (a static running total). This app corrects both: Scenario B now compounds your own contribution stream at a proper annual rate, and Scenario A applies a configurable — and by default, non-zero — PVD fund return, since real funds are invested rather than held as cash.</div>
+          <ul>
+            <li><b>Thai PVD contribution limits:</b> both employee and employer contributions are legally set between 2% and 15% of salary.</li>
+            <li><b>Break-even return:</b> solved numerically — the self-invest return rate (holding your contribution, tax, and fee settings fixed) at which Scenario B's final balance equals Scenario A's.</li>
+            <li><b>Employer match forfeited:</b> shown as a future value — what those forgone employer contributions would have grown to by retirement, at the PVD fund return rate.</li>
+            <li><b>Inflation view:</b> the real-comparison chart divides each year's balances by (1 + inflation)<sup>years elapsed</sup>. The year-by-year table always shows nominal (undiscounted) values.</li>
+          </ul>
+        </div>
+        <div class="disclaimer"><b>Not financial advice.</b> This tool is for illustration and planning discussion only. Actual PVD and investment returns vary by fund manager, product, and market conditions, and tax rules change over time. Speak with your fund's registered advisor or a licensed financial planner before making retirement decisions.</div>
+      </div>
+
+      <footer>PVD vs. Self-Directed Investing · Educational simulator, not financial advice</footer>
+    </main>
   </div>
-
-  <footer>© PVD QUEST — A RETIREMENT SIMULATOR<br>NOT FINANCIAL ADVICE · LV.99</footer>
-
 </div>
 
 <script>
 (function(){
   "use strict";
-
   const $ = id => document.getElementById(id);
 
   const els = {
     startAge: $('startAge'), endAge: $('endAge'), startSalary: $('startSalary'),
-    salaryGrowth: $('salaryGrowth'), pvdEmployee: $('pvdEmployee'), investReturn: $('investReturn'),
-    pvdEmployer: $('pvdEmployer'), investStartAge: $('investStartAge'),
-    existingBalance: $('existingBalance'), inflation: $('inflation')
+    salaryGrowth: $('salaryGrowth'), pvdEmployee: $('pvdEmployee'), pvdEmployer: $('pvdEmployer'),
+    pvdReturn: $('pvdReturn'), investReturn: $('investReturn'), drag: $('drag'),
+    taxRate: $('taxRate'), existingBalance: $('existingBalance'), inflation: $('inflation')
+  };
+
+  const DEFAULTS = {
+    startAge:28, endAge:60, startSalary:200000, salaryGrowth:3, pvdEmployee:3, pvdEmployer:3,
+    pvdReturn:2, investReturn:8, drag:1, taxRate:10, existingBalance:0, inflation:2.5
   };
 
   const toggles = {
     employer: {sw:$('switch-employer'), body:$('body-employer'), row:$('toggle-employer'), on:false},
-    investDelay: {sw:$('switch-investDelay'), body:$('body-investDelay'), row:$('toggle-investDelay'), on:false},
+    employerCash: {sw:$('switch-employerCash'), body:$('body-employerCash'), row:$('toggle-employerCash'), on:false},
+    drag: {sw:$('switch-drag'), body:$('body-drag'), row:$('toggle-drag'), on:false},
+    tax: {sw:$('switch-tax'), body:$('body-tax'), row:$('toggle-tax'), on:false},
     existing: {sw:$('switch-existing'), body:$('body-existing'), row:$('toggle-existing'), on:false},
     inflation: {sw:$('switch-inflation'), body:$('body-inflation'), row:$('toggle-inflation'), on:false}
   };
@@ -492,27 +778,84 @@
     });
   });
 
+  // ---------------- theme ----------------
+  const root = document.documentElement;
+  function setTheme(mode){ root.setAttribute('data-theme', mode); compute(); }
+  let currentTheme = 'light';
+  $('themeToggle').addEventListener('click', ()=>{
+    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    setTheme(currentTheme);
+  });
+
+  // ---------------- unit toggle ----------------
   let displayInK = false;
   $('unitFull').addEventListener('click', ()=>{displayInK=false; $('unitFull').classList.add('active'); $('unitK').classList.remove('active'); compute();});
   $('unitK').addEventListener('click', ()=>{displayInK=true; $('unitK').classList.add('active'); $('unitFull').classList.remove('active'); compute();});
 
+  // ---------------- presets ----------------
+  document.querySelectorAll('#presetRowPvd .preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#presetRowPvd .preset-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      els.pvdReturn.value = btn.dataset.return;
+      syncSliderFill(els.pvdReturn);
+      compute();
+    });
+  });
+  document.querySelectorAll('#presetRowInv .preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#presetRowInv .preset-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      els.investReturn.value = btn.dataset.return;
+      syncSliderFill(els.investReturn);
+      compute();
+    });
+  });
+  function syncPresetHighlight(row, el, val){
+    document.querySelectorAll('#'+row+' .preset-btn').forEach(b=>{
+      b.classList.toggle('active', parseFloat(b.dataset.return) === parseFloat(val));
+    });
+  }
+
+  // ---------------- reset ----------------
+  $('resetBtn').addEventListener('click', ()=>{
+    Object.keys(DEFAULTS).forEach(k=>{ if(els[k]){ els[k].value = DEFAULTS[k]; syncSliderFill(els[k]); }});
+    Object.values(toggles).forEach(t=>{ t.on=false; t.sw.classList.remove('on'); t.body.classList.remove('open'); });
+    syncPresetHighlight('presetRowPvd', els.pvdReturn, DEFAULTS.pvdReturn);
+    syncPresetHighlight('presetRowInv', els.investReturn, DEFAULTS.investReturn);
+    compute();
+  });
+
+  // ---------------- slider fill ----------------
+  function syncSliderFill(el){
+    const min = parseFloat(el.min), max = parseFloat(el.max), val = parseFloat(el.value);
+    const pct = ((val-min)/(max-min))*100;
+    el.style.setProperty('--pct', pct+'%');
+  }
+  Object.values(els).forEach(el=>{
+    syncSliderFill(el);
+    el.addEventListener('input', ()=>{
+      syncSliderFill(el);
+      if(el===els.pvdReturn) syncPresetHighlight('presetRowPvd', el, el.value);
+      if(el===els.investReturn) syncPresetHighlight('presetRowInv', el, el.value);
+      compute();
+    });
+  });
+
   function fmt(n){
     n = Math.round(n);
+    const sign = n < 0 ? '-' : '';
+    n = Math.abs(n);
     if(displayInK){
-      return '฿' + (n/1000).toLocaleString(undefined,{maximumFractionDigits:1}) + 'K';
+      return sign + '฿' + (n/1000).toLocaleString(undefined,{maximumFractionDigits:1}) + 'K';
     }
-    return '฿' + n.toLocaleString();
+    return sign + '฿' + n.toLocaleString();
   }
   function fmtPlain(n){ return Math.round(n).toLocaleString(); }
 
   function clampInputs(){
     let s = parseInt(els.startAge.value), e = parseInt(els.endAge.value);
-    if(e <= s){ e = s+1; els.endAge.value = e; }
-    if(toggles.investDelay.on){
-      let ia = parseInt(els.investStartAge.value);
-      if(ia < s) { ia = s; els.investStartAge.value = s; }
-      if(ia > e) { ia = e; els.investStartAge.value = e; }
-    }
+    if(e <= s){ e = s+1; els.endAge.value = e; syncSliderFill(els.endAge); }
   }
 
   function readValues(){
@@ -522,10 +865,14 @@
       endAge: parseInt(els.endAge.value),
       startSalary: parseFloat(els.startSalary.value),
       salaryGrowth: parseFloat(els.salaryGrowth.value)/100,
-      pvdEmployee: parseFloat(els.pvdEmployee.value)/100,
-      pvdEmployer: toggles.employer.on ? parseFloat(els.pvdEmployer.value)/100 : parseFloat(els.pvdEmployee.value)/100,
+      pvdEmployeeRate: parseFloat(els.pvdEmployee.value)/100,
+      pvdEmployerRate: toggles.employer.on ? parseFloat(els.pvdEmployer.value)/100 : parseFloat(els.pvdEmployee.value)/100,
+      pvdReturn: parseFloat(els.pvdReturn.value)/100,
       investReturn: parseFloat(els.investReturn.value)/100,
-      investStartAge: toggles.investDelay.on ? parseInt(els.investStartAge.value) : parseInt(els.startAge.value),
+      employerCash: toggles.employerCash.on,
+      drag: toggles.drag.on ? parseFloat(els.drag.value)/100 : 0,
+      taxOn: toggles.tax.on,
+      taxRate: toggles.tax.on ? parseFloat(els.taxRate.value)/100 : 0,
       existingBalance: toggles.existing.on ? parseFloat(els.existingBalance.value) : 0,
       inflation: toggles.inflation.on ? parseFloat(els.inflation.value)/100 : 0
     };
@@ -536,160 +883,307 @@
     $('val-endAge').textContent = v.endAge;
     $('val-startSalary').textContent = fmtPlain(v.startSalary);
     $('val-salaryGrowth').textContent = (v.salaryGrowth*100).toFixed(1)+'%';
-    $('val-pvdEmployee').textContent = (v.pvdEmployee*100).toFixed(1)+'%';
-    $('val-investReturn').textContent = (v.investReturn*100).toFixed(1)+'%';
+    $('val-pvdEmployee').textContent = (v.pvdEmployeeRate*100).toFixed(1)+'%';
     $('val-pvdEmployer').textContent = (parseFloat(els.pvdEmployer.value)).toFixed(1)+'%';
-    $('val-investStartAge').textContent = els.investStartAge.value;
+    $('val-pvdReturn').textContent = (v.pvdReturn*100).toFixed(1)+'%';
+    $('val-investReturn').textContent = (v.investReturn*100).toFixed(1)+'%';
+    $('val-drag').textContent = parseFloat(els.drag.value).toFixed(2)+'%';
+    $('val-taxRate').textContent = parseFloat(els.taxRate.value).toFixed(0)+'%';
     $('val-existingBalance').textContent = fmtPlain(els.existingBalance.value);
     $('val-inflation').textContent = parseFloat(els.inflation.value).toFixed(1)+'%';
+
+    const netR = (v.investReturn - v.drag)*100;
+    $('doubleHint').textContent = netR>0
+      ? ('Net of drag, roughly '+netR.toFixed(1)+'%/yr — money doubles about every '+(72/netR).toFixed(0)+' years (Rule of 72).')
+      : 'At 0% or less net return, this balance never grows beyond what you put in.';
   }
 
+  // ---------------- core simulation ----------------
+  // Scenario A (PVD): balance compounds at pvdReturn; contributions = employee + employer, added then grown.
+  // Scenario B (self-invest): balance compounds at (investReturn - drag); contribution = employee's own
+  // amount (optionally + employer cash if that toggle is on), optionally shrunk by income tax since PVD
+  // contributions are pre-tax and self-invested money is not.
   function simulate(v){
     const rows = [];
     let salary = v.startSalary;
-    let pvdAcc = v.existingBalance;
-    let invAcc = 0;
+    let pvdBal = v.existingBalance, pvdPrincipal = v.existingBalance;
+    let invBal = 0, invPrincipal = 0;
+    let empCum = 0, erCum = 0, forfeitFV = 0;
+    const netInvestReturn = Math.max(-0.99, v.investReturn - v.drag);
+
     for(let age=v.startAge; age<=v.endAge; age++){
       if(age>v.startAge){ salary = salary * (1+v.salaryGrowth); }
-      const empC = salary * v.pvdEmployee;
-      const erC  = salary * v.pvdEmployer;
-      const totalC = empC + erC;
-      pvdAcc += totalC;
-      if(age >= v.investStartAge){
-        invAcc = (invAcc + totalC) * (1 + v.investReturn);
-      }
-      rows.push({age, salary, empC, erC, totalC, pvdAcc, invAcc, total: pvdAcc+invAcc});
+      const empC = salary * v.pvdEmployeeRate;
+      const erC  = salary * v.pvdEmployerRate;
+      const pvdContribTotal = empC + erC;
+
+      pvdBal = (pvdBal + pvdContribTotal) * (1 + v.pvdReturn);
+      pvdPrincipal += pvdContribTotal;
+      empCum += empC; erCum += erC;
+
+      let selfContribGross = empC + (v.employerCash ? erC : 0);
+      const selfContrib = v.taxOn ? selfContribGross * (1 - v.taxRate) : selfContribGross;
+      invBal = (invBal + selfContrib) * (1 + netInvestReturn);
+      invPrincipal += selfContrib;
+
+      forfeitFV = v.employerCash ? 0 : (forfeitFV + erC) * (1 + v.pvdReturn);
+
+      rows.push({
+        age, salary, empC, erC, pvdContribTotal, pvdBal, pvdPrincipal, pvdGrowth: pvdBal - pvdPrincipal,
+        selfContrib, invBal, invPrincipal, invGrowth: invBal - invPrincipal,
+        gap: invBal - pvdBal, forfeitFV
+      });
     }
     return rows;
   }
 
-  // ---------------- pixel badge (abstract pilot rank icon, not a copyrighted mecha) ----------------
-  // 14x14 grid. '.'=empty, W=white,B=blue,R=red,Y=yellow,K=dark outline,C=cyan
-  const spriteRecruit = [
-    "..............",
-    "....KKKKKK....",
-    "...KWWWWWWK...",
-    "..KWWBBBBWWK..",
-    "..KWBB..BBWK..",
-    "..KWB.YY.BWK..",
-    "..KWB.YY.BWK..",
-    "..KWBB..BBWK..",
-    "..KWWBBBBWWK..",
-    "...KWWWWWWK...",
-    "....KWRRWK....",
-    "....KRRRRK....",
-    ".....KRRK.....",
-    "..............",
-  ];
-  const spriteAce = [
-    "..............",
-    "....KKKKKK....",
-    "...KWWWWWWK...",
-    "..KWWRRRRWWK..",
-    "..KWRR..RRWK..",
-    "..KWR.YY.RWK..",
-    "..KWR.YY.RWK..",
-    "..KWRR..RRWK..",
-    "..KWWRRRRWWK..",
-    "...KWWWWWWK...",
-    "....KYBBYK....",
-    "....KBBBBK....",
-    ".....KBBK.....",
-    "..............",
-  ];
-  const spriteNewtype = [
-    "..............",
-    "....KKKKKK....",
-    "...KWWWWWWK...",
-    "..KWWCCCCWWK..",
-    "..KWCC..CCWK..",
-    "..KWC.YY.CWK..",
-    "..KWC.YY.CWK..",
-    "..KWCC..CCWK..",
-    "..KWWCCCCWWK..",
-    "...KWWWWWWK...",
-    "....KYYYYK....",
-    "....KYCCYK....",
-    ".....KYYK.....",
-    "..............",
-  ];
-  const palette = {K:'#0A0E1A', W:'#ECEBE4', B:'#2464C9', R:'#E62430', Y:'#F5C518', C:'#3FDCE0', '.':'transparent'};
-
-  function drawSprite(grid){
-    const svg = $('pilotBadge');
-    svg.innerHTML = '';
-    const size = 14;
-    for(let r=0;r<size;r++){
-      for(let c=0;c<size;c++){
-        const ch = grid[r][c];
-        if(ch==='.') continue;
-        const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
-        rect.setAttribute('x', c); rect.setAttribute('y', r);
-        rect.setAttribute('width', 1); rect.setAttribute('height', 1);
-        rect.setAttribute('fill', palette[ch]);
-        svg.appendChild(rect);
-      }
+  // Final self-invest balance at an arbitrary gross return rate (for sensitivity / break-even), all else equal.
+  function selfFinalAtRate(v, rate){
+    let salary = v.startSalary, invBal = 0;
+    const netRate = Math.max(-0.99, rate - v.drag);
+    for(let age=v.startAge; age<=v.endAge; age++){
+      if(age>v.startAge){ salary = salary * (1+v.salaryGrowth); }
+      const empC = salary * v.pvdEmployeeRate;
+      const erC  = salary * v.pvdEmployerRate;
+      let selfContribGross = empC + (v.employerCash ? erC : 0);
+      const selfContrib = v.taxOn ? selfContribGross * (1 - v.taxRate) : selfContribGross;
+      invBal = (invBal + selfContrib) * (1 + netRate);
     }
+    return invBal;
   }
 
-  function rankFor(total){
-    if(total >= 5000000) return {name:'NEWTYPE', sprite:spriteNewtype};
-    if(total >= 1500000) return {name:'ACE PILOT', sprite:spriteAce};
-    return {name:'RECRUIT', sprite:spriteRecruit};
+  function breakEvenRate(v, pvdFinal){
+    let lo = -0.20, hi = 0.60;
+    for(let i=0;i<60;i++){
+      const mid = (lo+hi)/2;
+      const val = selfFinalAtRate(v, mid);
+      if(val < pvdFinal) lo = mid; else hi = mid;
+    }
+    return (lo+hi)/2;
   }
 
-  // ---------------- chart ----------------
-  function drawChart(rows){
-    const svg = $('chartSvg');
-    svg.innerHTML = '';
-    const W=400,H=220, padL=34, padB=20, padT=8, padR=6;
-    const plotW = W-padL-padR, plotH = H-padT-padB;
-    const maxV = Math.max(1, ...rows.map(r=>r.total));
+  // ---------------- chart helpers ----------------
+  function themeColors(){
+    const dark = root.getAttribute('data-theme')==='dark';
+    return {
+      grid: dark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)',
+      axis: dark ? '#8E8E93' : '#AEAEB2',
+      blue: '#0071E3', blueSoft: dark ? 'rgba(0,113,227,0.30)' : 'rgba(0,113,227,0.16)',
+      purple: '#AF52DE', purpleSoft: dark ? 'rgba(175,82,222,0.30)' : 'rgba(175,82,222,0.16)',
+      green: '#2FB350', orange: '#FF9F0A', red:'#FF3B30', ink: dark ? '#F5F5F7' : '#1D1D1F'
+    };
+  }
+  function svgEl(tag, attrs){
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for(const k in attrs) el.setAttribute(k, attrs[k]);
+    return el;
+  }
+  function niceMax(v){
+    if(v<=0) return 1;
+    const mag = Math.pow(10, Math.floor(Math.log10(v)));
+    const n = v/mag;
+    let f;
+    if(n<=1) f=1; else if(n<=2) f=2; else if(n<=5) f=5; else f=10;
+    return f*mag;
+  }
+  function axisValLabel(val){
+    return (val/1000000>=1? (val/1000000).toFixed(1)+'M' : Math.round(val/1000)+'K');
+  }
+
+  // ---------------- trajectory chart (dual line + leader band) ----------------
+  function drawTrajectory(rows){
+    const svg = $('chartTrajectory'); svg.innerHTML='';
+    const C = themeColors();
+    const W=900,H=300, padL=54, padB=28, padT=14, padR=14;
+    const plotW=W-padL-padR, plotH=H-padT-padB;
     const n = rows.length;
-    const barSlot = plotW/n;
-    const barW = Math.max(2, barSlot*0.62);
+    const maxV = niceMax(Math.max(1, ...rows.map(r=>Math.max(r.pvdBal, r.invBal))));
+    const x = i => padL + (n<=1?0:i*(plotW/(n-1)));
+    const y = val => padT + plotH - (Math.max(0,val)/maxV)*plotH;
 
-    // gridlines + y labels (4 steps)
     for(let i=0;i<=4;i++){
-      const val = maxV*i/4;
-      const y = padT + plotH - (val/maxV)*plotH;
-      const line = document.createElementNS('http://www.w3.org/2000/svg','line');
-      line.setAttribute('x1',padL); line.setAttribute('x2', W-padR);
-      line.setAttribute('y1',y); line.setAttribute('y2',y);
-      line.setAttribute('stroke', '#2C3A63'); line.setAttribute('stroke-width','1');
-      line.setAttribute('shape-rendering','crispEdges');
-      svg.appendChild(line);
-
-      const label = document.createElementNS('http://www.w3.org/2000/svg','text');
-      label.setAttribute('x', padL-4); label.setAttribute('y', y+3);
-      label.setAttribute('text-anchor','end'); label.setAttribute('class','axis-label');
-      label.textContent = displayInK ? Math.round(val/1000)+'K' : Math.round(val/1000)+'K';
-      svg.appendChild(label);
+      const val=maxV*i/4, yy=y(val);
+      svg.appendChild(svgEl('line',{x1:padL,x2:W-padR,y1:yy,y2:yy,stroke:C.grid,'stroke-width':1}));
+      const lbl=svgEl('text',{x:padL-8,y:yy+3,'text-anchor':'end','class':'axis-label'});
+      lbl.textContent = axisValLabel(val);
+      svg.appendChild(lbl);
     }
 
+    // leader band: split into runs of consistent leader
+    let i=0;
+    while(i<n-1){
+      const leaderInv = rows[i].gap >= 0;
+      let j=i;
+      while(j<n-1 && (rows[j].gap>=0)===leaderInv) j++;
+      let d = 'M '+x(i)+' '+y(rows[i].pvdBal);
+      for(let k=i;k<=j;k++) d += ' L '+x(k)+' '+y(rows[k].pvdBal);
+      for(let k=j;k>=i;k--) d += ' L '+x(k)+' '+y(rows[k].invBal);
+      d += ' Z';
+      svg.appendChild(svgEl('path',{d, fill: leaderInv ? C.purpleSoft : C.blueSoft, stroke:'none'}));
+      i=j;
+    }
+
+    let dPvd = 'M '+x(0)+' '+y(rows[0].pvdBal);
+    rows.forEach((r,idx)=>{ dPvd += ' L '+x(idx)+' '+y(r.pvdBal); });
+    svg.appendChild(svgEl('path',{d:dPvd, fill:'none', stroke:C.blue, 'stroke-width':2.5}));
+
+    let dInv = 'M '+x(0)+' '+y(rows[0].invBal);
+    rows.forEach((r,idx)=>{ dInv += ' L '+x(idx)+' '+y(r.invBal); });
+    svg.appendChild(svgEl('path',{d:dInv, fill:'none', stroke:C.purple, 'stroke-width':2.5}));
+
+    const step = Math.max(1, Math.ceil(n/12));
+    rows.forEach((r,idx)=>{
+      if(idx%step===0 || idx===n-1){
+        const lbl=svgEl('text',{x:x(idx),y:H-8,'text-anchor':'middle','class':'axis-label'});
+        lbl.textContent = r.age;
+        svg.appendChild(lbl);
+      }
+    });
+  }
+
+  // ---------------- composition chart: two stacked bars ----------------
+  // Uses aggregate cumulative totals (empCum/erCum) computed in compute().
+  function drawCompositionFinal(rows, empCum, erCum){
+    const svg = $('chartComposition'); svg.innerHTML='';
+    const C = themeColors();
+    const last = rows[rows.length-1];
+    const W=420, padL=92, padR=16, padT=20, padB=16;
+    const barH = 46, gapY = 78;
+    const maxV = niceMax(Math.max(1, last.pvdBal, last.invBal));
+    const plotW = W-padL-padR;
+    const xv = val => (Math.max(0,val)/maxV)*plotW;
+
+    const legend = $('compLegend'); legend.innerHTML='';
+    [{label:'Employee contribution', color:C.blue},
+     {label:'Employer contribution', color:C.purple},
+     {label:'Investment growth', color:C.green}].forEach(li=>{
+      const s = document.createElement('span');
+      s.innerHTML = `<i style="background:${li.color}"></i>${li.label}`;
+      legend.appendChild(s);
+    });
+
+    function bar(y0, label, segs, total){
+      const lbl = svgEl('text',{x:padL-8,y:y0+barH/2+4,'text-anchor':'end','font-family':'var(--font-text)','font-size':'11.5','font-weight':'700',fill:C.ink});
+      lbl.textContent = label;
+      svg.appendChild(lbl);
+      svg.appendChild(svgEl('rect',{x:padL,y:y0,width:plotW,height:barH,rx:8,fill:C.grid}));
+      let cx = padL;
+      segs.forEach(s=>{
+        const w = xv(s.val);
+        if(w>0.5){ svg.appendChild(svgEl('rect',{x:cx,y:y0,width:w,height:barH,fill:s.color})); }
+        cx += w;
+      });
+      const totX = Math.min(padL+plotW+4, padL+xv(total)+6);
+      const totLbl = svgEl('text',{x:totX,y:y0+barH/2+4,'font-family':'var(--font-mono)','font-size':'11.5','font-weight':'700',fill:C.ink});
+      totLbl.textContent = fmt(total);
+      svg.appendChild(totLbl);
+    }
+
+    bar(padT, 'PVD', [
+      {val:empCum, color:C.blue},
+      {val:erCum, color:C.purple},
+      {val:last.pvdGrowth, color:C.green}
+    ], last.pvdBal);
+
+    bar(padT+gapY, 'Self-invest', [
+      {val:last.invPrincipal, color:C.blue},
+      {val:last.invGrowth, color:C.green}
+    ], last.invBal);
+
+    svg.setAttribute('viewBox','0 0 '+W+' '+(padT+gapY+barH+20));
+  }
+
+  // ---------------- break-even sensitivity chart ----------------
+  function drawSensitivity(v, pvdFinal, beRate){
+    const svg = $('chartSensitivity'); svg.innerHTML='';
+    const C = themeColors();
+    const W=420,H=220, padL=52, padB=26, padT=12, padR=12;
+    const plotW=W-padL-padR, plotH=H-padT-padB;
+
+    const rMin=0, rMax=0.20, steps=20;
+    const pts = [];
+    for(let i=0;i<=steps;i++){
+      const r = rMin + (rMax-rMin)*i/steps;
+      pts.push({r, val: selfFinalAtRate(v, r)});
+    }
+    const maxV = niceMax(Math.max(1, pvdFinal, ...pts.map(p=>p.val)));
+    const x = r => padL + ((r-rMin)/(rMax-rMin))*plotW;
+    const y = val => padT + plotH - (Math.max(0,val)/maxV)*plotH;
+
+    for(let i=0;i<=3;i++){
+      const val=maxV*i/3, yy=y(val);
+      svg.appendChild(svgEl('line',{x1:padL,x2:W-padR,y1:yy,y2:yy,stroke:C.grid,'stroke-width':1}));
+      const lbl=svgEl('text',{x:padL-6,y:yy+3,'text-anchor':'end','class':'axis-label'});
+      lbl.textContent = axisValLabel(val);
+      svg.appendChild(lbl);
+    }
+
+    // PVD reference line
+    const yPvd = y(pvdFinal);
+    svg.appendChild(svgEl('line',{x1:padL,x2:W-padR,y1:yPvd,y2:yPvd,stroke:C.blue,'stroke-width':1.6,'stroke-dasharray':'5,4'}));
+
+    let d = 'M '+x(pts[0].r)+' '+y(pts[0].val);
+    pts.forEach(p=>{ d += ' L '+x(p.r)+' '+y(p.val); });
+    svg.appendChild(svgEl('path',{d, fill:'none', stroke:C.purple, 'stroke-width':2.5}));
+
+    // break-even marker
+    if(beRate>=rMin && beRate<=rMax){
+      const bx = x(beRate), by = y(pvdFinal);
+      svg.appendChild(svgEl('line',{x1:bx,x2:bx,y1:padT,y2:plotH+padT,stroke:C.orange,'stroke-width':1,'stroke-dasharray':'3,3'}));
+      svg.appendChild(svgEl('circle',{cx:bx,cy:by,r:4.5,fill:C.orange}));
+    }
+
+    const legend = $('sensLegend'); legend.innerHTML='';
+    [{label:'Self-invest at rate r', color:C.purple, cls:'line'},
+     {label:'PVD balance (fixed)', color:C.blue, cls:'dash'},
+     {label:'Break-even point', color:C.orange, cls:''}].forEach(li=>{
+      const s = document.createElement('span');
+      s.innerHTML = `<i class="${li.cls}" style="background:${li.cls?'':li.color};${li.cls==='dash'?('color:'+li.color):''}"></i>${li.label}`;
+      legend.appendChild(s);
+    });
+
+    for(let i=0;i<=5;i++){
+      const r = rMin + (rMax-rMin)*i/5;
+      const lbl=svgEl('text',{x:x(r),y:H-8,'text-anchor':'middle','class':'axis-label'});
+      lbl.textContent = (r*100).toFixed(0)+'%';
+      svg.appendChild(lbl);
+    }
+  }
+
+  // ---------------- real (inflation-adjusted) dual chart ----------------
+  function drawReal(rows, v){
+    const svg = $('chartReal'); svg.innerHTML='';
+    const C = themeColors();
+    const W=900,H=220, padL=54, padB=28, padT=12, padR=14;
+    const plotW=W-padL-padR, plotH=H-padT-padB;
+    const infl = parseFloat(els.inflation.value)/100;
+    const n = rows.length;
+    const realPvd = rows.map(r => r.pvdBal / Math.pow(1+infl, r.age - v.startAge));
+    const realInv = rows.map(r => r.invBal / Math.pow(1+infl, r.age - v.startAge));
+    const maxV = niceMax(Math.max(1, ...rows.map(r=>Math.max(r.pvdBal,r.invBal))));
+    const x = i => padL + (n<=1?0:i*(plotW/(n-1)));
+    const y = val => padT + plotH - (Math.max(0,val)/maxV)*plotH;
+
+    for(let i=0;i<=4;i++){
+      const val=maxV*i/4, yy=y(val);
+      svg.appendChild(svgEl('line',{x1:padL,x2:W-padR,y1:yy,y2:yy,stroke:C.grid,'stroke-width':1}));
+      const lbl=svgEl('text',{x:padL-8,y:yy+3,'text-anchor':'end','class':'axis-label'});
+      lbl.textContent = axisValLabel(val);
+      svg.appendChild(lbl);
+    }
+
+    let dPvd='M '+x(0)+' '+y(realPvd[0]);
+    realPvd.forEach((val,i)=>{ dPvd += ' L '+x(i)+' '+y(val); });
+    svg.appendChild(svgEl('path',{d:dPvd, fill:'none', stroke:C.blue, 'stroke-width':2.5}));
+
+    let dInv='M '+x(0)+' '+y(realInv[0]);
+    realInv.forEach((val,i)=>{ dInv += ' L '+x(i)+' '+y(val); });
+    svg.appendChild(svgEl('path',{d:dInv, fill:'none', stroke:C.purple, 'stroke-width':2.5}));
+
+    const step = Math.max(1, Math.ceil(n/12));
     rows.forEach((r,i)=>{
-      const x = padL + i*barSlot + (barSlot-barW)/2;
-      const pvdH = (r.pvdAcc/maxV)*plotH;
-      const invH = (r.invAcc/maxV)*plotH;
-
-      const invRect = document.createElementNS('http://www.w3.org/2000/svg','rect');
-      invRect.setAttribute('x', x); invRect.setAttribute('width', barW);
-      invRect.setAttribute('y', padT+plotH-pvdH-invH); invRect.setAttribute('height', Math.max(0,invH));
-      invRect.setAttribute('fill', '#3FDCE0');
-      invRect.setAttribute('shape-rendering','crispEdges');
-      svg.appendChild(invRect);
-
-      const pvdRect = document.createElementNS('http://www.w3.org/2000/svg','rect');
-      pvdRect.setAttribute('x', x); pvdRect.setAttribute('width', barW);
-      pvdRect.setAttribute('y', padT+plotH-pvdH); pvdRect.setAttribute('height', Math.max(0,pvdH));
-      pvdRect.setAttribute('fill', '#2464C9');
-      pvdRect.setAttribute('shape-rendering','crispEdges');
-      svg.appendChild(pvdRect);
-
-      if(n<=20 || i%Math.ceil(n/12)===0 || i===n-1){
-        const lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
-        lbl.setAttribute('x', x+barW/2); lbl.setAttribute('y', H-6);
-        lbl.setAttribute('text-anchor','middle'); lbl.setAttribute('class','axis-label');
+      if(i%step===0 || i===n-1){
+        const lbl=svgEl('text',{x:x(i),y:H-8,'text-anchor':'middle','class':'axis-label'});
         lbl.textContent = r.age;
         svg.appendChild(lbl);
       }
@@ -697,52 +1191,106 @@
   }
 
   function renderTable(rows){
-    const body = $('logBody');
-    body.innerHTML = '';
+    const body = $('logBody'); body.innerHTML='';
     rows.forEach((r,i)=>{
       const tr = document.createElement('tr');
       if((i+1)%5===0 || i===rows.length-1) tr.classList.add('milestone');
-      tr.innerHTML = `<td>${r.age}</td><td>${fmt(r.salary)}</td><td>${fmt(r.pvdAcc)}</td><td>${fmt(r.invAcc)}</td><td>${fmt(r.total)}</td>`;
+      const gapCls = r.gap>=0 ? 'win-inv' : 'win-pvd';
+      tr.innerHTML = `<td>${r.age}</td><td>${fmt(r.salary)}</td><td>${fmt(r.empC)}</td><td>${fmt(r.erC)}</td><td>${fmt(r.pvdBal)}</td><td>${fmt(r.selfContrib)}</td><td>${fmt(r.invBal)}</td><td class="${gapCls}">${r.gap>=0?'+':''}${fmt(r.gap)}</td>`;
       body.appendChild(tr);
     });
+  }
+
+  let lastRows = [];
+  $('exportCsv').addEventListener('click', ()=>{
+    const header = 'Age,Salary,PVD Employee,PVD Employer,PVD Balance,Self-Invest Contribution,Self-Invest Balance,Gap (SelfInvest-PVD)\n';
+    const csv = header + lastRows.map(r=>[r.age, r.salary.toFixed(2), r.empC.toFixed(2), r.erC.toFixed(2), r.pvdBal.toFixed(2), r.selfContrib.toFixed(2), r.invBal.toFixed(2), r.gap.toFixed(2)].join(',')).join('\n');
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'pvd-vs-self-invest.csv'; a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  function buildInsights(v, last, beRate, forfeitFV){
+    const grid = $('insightGrid'); grid.innerHTML='';
+    const items = [];
+    const gap = last.invBal - last.pvdBal;
+    const winner = gap>=0 ? 'self-directed investing' : 'staying in PVD';
+    const winnerAmt = Math.abs(gap);
+
+    items.push(`<div class="insight"><span class="ico">${gap>=0?'💜':'💙'}</span>At your current settings, <b>${winner}</b> comes out ahead by <b>${fmt(winnerAmt)}</b> at retirement.</div>`);
+
+    if(!v.employerCash){
+      items.push(`<div class="insight"><span class="ico">🎁</span>Opting out forfeits your employer's match. By retirement that forgone money would have grown to roughly <b>${fmt(forfeitFV)}</b> — a cost self-investing has to out-earn just to catch up.</div>`);
+    }
+
+    const beText = beRate*100;
+    items.push(`<div class="insight"><span class="ico">🎯</span>To match PVD on its own, self-investing your contribution alone needs about <b>${beText.toFixed(1)}%/yr</b>, vs. the <b>${(v.investReturn*100).toFixed(1)}%/yr</b> you assumed.</div>`);
+
+    if(v.taxOn){
+      items.push(`<div class="insight"><span class="ico">🧾</span>With a ${(v.taxRate*100).toFixed(0)}% marginal tax rate applied, self-investing effectively funds itself with less money each year, since PVD contributions are pre-tax and self-invested money is not.</div>`);
+    } else {
+      items.push(`<div class="insight"><span class="ico">🧾</span>PVD contributions are typically tax-deductible and grow tax-exempt. Turn on <b>“Account for income tax”</b> in the sidebar to see how that tilts the comparison.</div>`);
+    }
+
+    grid.innerHTML = items.join('');
   }
 
   function compute(){
     const v = readValues();
     updateReadouts(v);
     const rows = simulate(v);
+    lastRows = rows;
     const last = rows[rows.length-1];
+    const empCumTotal = rows.reduce((s,r)=>s+r.empC,0);
+    const erCumTotal = rows.reduce((s,r)=>s+r.erC,0);
 
-    let deflator = 1;
-    if(v.inflation>0){
-      const years = v.endAge - v.startAge;
-      deflator = 1/Math.pow(1+v.inflation, years);
-    }
-    const pvdShown = last.pvdAcc*deflator;
-    const invShown = last.invAcc*deflator;
-    const totalShown = last.total*deflator;
+    const beRate = breakEvenRate(v, last.pvdBal);
 
-    $('out-pvd').textContent = fmt(pvdShown);
-    $('out-pvd-sub').textContent = 'employee '+ (v.pvdEmployee*100).toFixed(1)+'% + employer '+(v.pvdEmployer*100).toFixed(1)+'%, no market growth';
-    $('out-inv').textContent = fmt(invShown);
-    $('out-inv-sub').textContent = 'compounding @ '+(v.investReturn*100).toFixed(1)+'%/yr from age '+v.investStartAge;
-    $('out-total').textContent = fmt(totalShown);
-    $('out-total-sub').textContent = (v.endAge-v.startAge)+' years of service · age '+v.startAge+' → '+v.endAge + (v.inflation>0 ? ' · in today\u2019s money' : '');
+    // scoreboard
+    $('out-pvd').textContent = fmt(last.pvdBal);
+    $('out-pvd-sub').textContent = 'Employee '+fmt(empCumTotal)+' + Employer '+fmt(erCumTotal)+' + growth '+fmt(last.pvdGrowth);
+    $('out-inv').textContent = fmt(last.invBal);
+    $('out-inv-sub').textContent = 'Contributed '+fmt(last.invPrincipal)+' + growth '+fmt(last.invGrowth);
 
-    $('hudTotal').textContent = fmt(totalShown);
-    const rank = rankFor(totalShown);
-    $('rankName').textContent = rank.name;
-    drawSprite(rank.sprite);
+    const total = last.pvdBal + last.invBal;
+    const pvdPct = total>0 ? Math.round(last.pvdBal/total*100) : 50;
+    const invPct = 100-pvdPct;
+    $('gap-fill-pvd').style.width = pvdPct+'%';
+    $('gap-fill-inv').style.width = invPct+'%';
+    const gap = last.invBal - last.pvdBal;
+    $('gap-label').textContent = gap>=0 ? 'Self-invest leads' : 'PVD leads';
+    $('gap-pct').textContent = (gap>=0?'+':'') + fmt(gap);
+    $('crown-pvd').classList.toggle('show', gap<0);
+    $('crown-inv').classList.toggle('show', gap>=0);
 
-    const pct = Math.min(100, Math.round((totalShown/5000000)*100));
-    $('xpFill').style.width = pct+'%';
-    $('xpPct').textContent = pct+'%';
+    // KPIs
+    $('kpi-pvd').textContent = fmt(last.pvdBal);
+    $('kpi-pvd-sub').textContent = (v.endAge-v.startAge)+' yrs · '+(v.pvdReturn*100).toFixed(1)+'%/yr fund return';
+    $('kpi-inv').textContent = fmt(last.invBal);
+    $('kpi-inv-sub').textContent = (v.endAge-v.startAge)+' yrs · '+(v.investReturn*100).toFixed(1)+'%/yr, '+(v.drag*100).toFixed(1)+'% drag';
+    const gapEl = $('kpi-gap');
+    gapEl.textContent = (gap>=0?'+':'') + fmt(gap);
+    gapEl.className = 'kpi-value ' + (gap>=0 ? 'c-purple' : 'c-blue');
+    $('kpi-gap-sub').textContent = gap>=0 ? 'in favor of self-investing' : 'in favor of staying in PVD';
+    $('kpi-forfeit').textContent = v.employerCash ? fmt(0) : fmt(last.forfeitFV);
+    $('kpi-forfeit-sub').textContent = v.employerCash ? 'Employer pays match as cash — nothing forfeited' : 'Future value of employer money you\u2019d give up';
+    $('kpi-breakeven').textContent = (beRate*100).toFixed(1)+'%';
+    $('kpi-breakeven-sub').textContent = 'vs. your assumed '+(v.investReturn*100).toFixed(1)+'%/yr';
+    const winPrincipal = gap>=0 ? last.invPrincipal : last.pvdPrincipal;
+    const winBalance = gap>=0 ? last.invBal : last.pvdBal;
+    $('kpi-multiple').textContent = (winPrincipal>0 ? (winBalance/winPrincipal) : 1).toFixed(2)+'\u00d7';
+    $('kpi-multiple-sub').textContent = (gap>=0?'Self-invest':'PVD')+' balance \u00f7 money put in';
 
-    drawChart(rows);
+    buildInsights(v, last, beRate, last.forfeitFV);
+
+    drawTrajectory(rows);
+    drawCompositionFinal(rows, empCumTotal, erCumTotal);
+    drawSensitivity(v, last.pvdBal, beRate);
+    drawReal(rows, v);
     renderTable(rows);
   }
-
-  Object.values(els).forEach(el=> el.addEventListener('input', compute));
 
   compute();
 })();
