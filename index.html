@@ -272,6 +272,13 @@
   /* ============ MAIN CONTENT ============ */
   .page-title{font-family:var(--font-display); font-size:20px; font-weight:700; margin:0 0 6px; letter-spacing:-0.2px; line-height:1.25;}
   .page-sub{font-size:13px; color:var(--ink-soft); margin:0 0 18px; line-height:1.6; max-width:760px;}
+  .comparison-mode{display:flex; flex-direction:column; gap:10px; padding:13px; margin:0 0 14px; border:1px solid var(--hairline); border-radius:var(--radius-md); background:var(--card);}
+  .comparison-mode-copy{flex:1; min-width:0;}
+  .comparison-mode-title{font-size:12.5px; font-weight:750; margin:0 0 3px;}
+  .comparison-mode-note{font-size:11.5px; color:var(--ink-soft); margin:0; line-height:1.45;}
+  .mode-seg{display:grid; grid-template-columns:1fr 1fr; gap:3px; padding:3px; background:var(--track); border-radius:10px;}
+  .mode-seg button{border:0; border-radius:8px; padding:9px 11px; background:transparent; color:var(--ink-soft); font:650 12px var(--font-text); cursor:pointer;}
+  .mode-seg button.active{background:var(--card-strong); color:var(--ink); box-shadow:var(--shadow-card);}
 
   /* ---- scoreboard hero: three account paths, stacked until there is room ---- */
   .scoreboard{
@@ -301,7 +308,7 @@
   .score-gap-track{flex:1 1 100%; height:10px; border-radius:6px; background:var(--track); overflow:hidden; display:flex; order:3;}
   .score-gap-fill{height:100%; transition:width .4s;}
 
-  .kpi-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px;}
+  .kpi-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-bottom:18px;}
   .kpi{
     background:var(--card); border:1px solid var(--hairline); border-radius:var(--radius-md); padding:13px 13px;
   }
@@ -480,13 +487,27 @@
     .score-gap-bar{padding:12px 26px; flex-wrap:nowrap;}
     .score-gap-track{flex:1 1 auto; order:0;}
 
-    .kpi-grid{grid-template-columns:repeat(6,1fr); gap:11px;}
+    .comparison-mode{flex-direction:row; align-items:center;}
+    .mode-seg{flex:0 0 300px;}
+    .kpi-grid{grid-template-columns:repeat(3,1fr); gap:11px;}
     .grid-2{grid-template-columns:1fr 1fr; gap:16px;}
     .insight-grid{grid-template-columns:1fr 1fr; gap:14px;}
     .model-strip{grid-template-columns:repeat(3,1fr);}
     .parity-callout{flex-direction:row; align-items:center; justify-content:space-between;}
     .panel{padding:20px 22px 22px;}
     .panel-head{flex-wrap:nowrap;}
+  }
+
+  @media (max-width:899px){
+    .side-group{margin-bottom:8px; border:1px solid var(--hairline); border-radius:var(--radius-md); background:var(--card); overflow:hidden;}
+    .side-group-title{margin:0; padding:14px 40px 14px 14px; color:var(--ink); font-size:12px; cursor:pointer; position:relative;}
+    .side-group-title::after{content:"+"; position:absolute; right:14px; top:10px; font-size:20px; color:var(--ink-soft); font-weight:400;}
+    .side-group.open>.side-group-title::after{content:"−";}
+    .side-group-desc,.side-group>.field,.side-group>.toggle-field,.side-group>.preset-row{display:none;}
+    .side-group.open{padding-bottom:10px;}
+    .side-group.open>.side-group-desc,.side-group.open>.field,.side-group.open>.toggle-field,.side-group.open>.preset-row{display:block; margin-left:10px; margin-right:10px;}
+    .side-group.open>.preset-row{display:flex;}
+    .side-group.open>.side-group-desc{margin-top:0; padding:0 4px;}
   }
 
   @media print{
@@ -683,8 +704,8 @@
         </div>
 
         <div class="field">
-          <div class="field-row"><span class="field-label">Current investment portfolio</span><span class="field-value" id="val-existingInvestment">500,000</span></div>
-          <input type="range" id="existingInvestment" min="0" max="50000000" step="10000" value="500000">
+          <div class="field-row"><span class="field-label">Current investment portfolio</span><span class="field-value" id="val-existingInvestment">0</span></div>
+          <input type="range" id="existingInvestment" min="0" max="50000000" step="10000" value="0">
           <div class="range-minmax"><span>0</span><span>50M</span></div>
           <div class="hint">This same starting value is used for both investment paths, so the only difference is whether you keep adding money.</div>
         </div>
@@ -711,7 +732,18 @@
     <!-- ================= MAIN ================= -->
     <main class="main">
       <h1 class="page-title">PVD, invest and add, or leave the portfolio alone?</h1>
-      <p class="page-sub">Compare three monthly-compounded paths at once: <b>PVD with employee + employer money</b>, <b>your investment portfolio with additions at any percentage of salary</b>, and <b>the same portfolio with no new money</b>. Each path keeps its own starting balance and cash-flow rules.</p>
+      <p class="page-sub">See what each choice could be worth at retirement: <b>stay in PVD</b>, <b>invest and keep adding</b>, or <b>invest without adding more</b>.</p>
+
+      <div class="comparison-mode" aria-label="Comparison mode">
+        <div class="comparison-mode-copy">
+          <p class="comparison-mode-title" id="modeTitle">Fair comparison</p>
+          <p class="comparison-mode-note" id="modeNote">Same personal savings rate and no starting balance, so the choices are compared on equal footing.</p>
+        </div>
+        <div class="mode-seg">
+          <button id="modeFair" class="active" type="button">Fair comparison</button>
+          <button id="modeActual" type="button">My balances</button>
+        </div>
+      </div>
 
       <div class="model-strip" aria-label="Active scenario assumptions">
         <div class="model-cell">
@@ -766,32 +798,17 @@
 
       <div class="kpi-grid">
         <div class="kpi">
-          <p class="kpi-label">PVD balance at retirement</p>
-          <p class="kpi-value c-blue" id="kpi-pvd">฿0</p>
-          <p class="kpi-sub" id="kpi-pvd-sub">—</p>
-        </div>
-        <div class="kpi">
-          <p class="kpi-label">Investment + additions</p>
-          <p class="kpi-value c-purple" id="kpi-inv">฿0</p>
-          <p class="kpi-sub" id="kpi-inv-sub">—</p>
-        </div>
-        <div class="kpi">
-          <p class="kpi-label">Investment + no additions</p>
-          <p class="kpi-value c-teal" id="kpi-hold">฿0</p>
-          <p class="kpi-sub" id="kpi-hold-sub">—</p>
-        </div>
-        <div class="kpi">
-          <p class="kpi-label">Employer match forfeited</p>
+          <p class="kpi-label">Employer money you give up</p>
           <p class="kpi-value c-orange" id="kpi-forfeit">฿0</p>
           <p class="kpi-sub" id="kpi-forfeit-sub">Future value if opting out</p>
         </div>
         <div class="kpi">
-          <p class="kpi-label">Break-even return needed</p>
+          <p class="kpi-label">Return needed to beat PVD</p>
           <p class="kpi-value c-red" id="kpi-breakeven">0.0%</p>
           <p class="kpi-sub" id="kpi-breakeven-sub">To match PVD, self-invest alone must earn this</p>
         </div>
         <div class="kpi">
-          <p class="kpi-label">Value created by adding</p>
+          <p class="kpi-label">Benefit of continuing to add</p>
           <p class="kpi-value c-green" id="kpi-add-value">฿0</p>
           <p class="kpi-sub" id="kpi-add-value-sub">B minus C at retirement</p>
         </div>
@@ -944,7 +961,7 @@
   const DEFAULTS = {
     startAge:28, endAge:60, startSalary:600000, salaryGrowth:3, pvdEmployee:5, pvdEmployer:5,
     pvdReturn:4, investContribution:5, investReturn:8, drag:1, taxRate:10,
-    existingPvd:0, existingInvestment:500000, inflation:2.5
+    existingPvd:0, existingInvestment:0, inflation:2.5
   };
 
   const toggles = {
@@ -983,7 +1000,7 @@
       Object.entries(els).forEach(([key,el])=>{ inputs[key] = Number(el.value); });
       const toggleState = {};
       Object.entries(toggles).forEach(([key,t])=>{ toggleState[key] = t.on; });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({inputs, toggles:toggleState, theme:currentTheme, displayInK}));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({inputs, toggles:toggleState, theme:currentTheme, displayInK, comparisonMode}));
     } catch (_error) { /* Private browsing can disable storage; calculations still work. */ }
   }
 
@@ -998,6 +1015,26 @@
     });
   });
   restoreSettings();
+
+  // Mobile input groups behave as compact accordions. Keep the first group open
+  // so users immediately understand what can be changed.
+  document.querySelectorAll('.side-group').forEach((group,index)=>{
+    const heading = group.querySelector('.side-group-title');
+    if(!heading) return;
+    heading.setAttribute('role','button');
+    heading.setAttribute('tabindex','0');
+    heading.setAttribute('aria-expanded', String(index===0));
+    group.classList.toggle('open', index===0);
+    const activate = ()=>{
+      const open = !group.classList.contains('open');
+      group.classList.toggle('open',open);
+      heading.setAttribute('aria-expanded',String(open));
+    };
+    heading.addEventListener('click',activate);
+    heading.addEventListener('keydown',event=>{
+      if(event.key==='Enter' || event.key===' '){ event.preventDefault(); activate(); }
+    });
+  });
 
   // ---------------- mobile sidebar drawer ----------------
   // On mobile the input panel starts collapsed so results show first; on desktop
@@ -1014,6 +1051,7 @@
   const root = document.documentElement;
   function setTheme(mode){ root.setAttribute('data-theme', mode); compute(); }
   const savedUi = readStoredSettings();
+  let comparisonMode = savedUi && savedUi.comparisonMode === 'actual' ? 'actual' : 'fair';
   let currentTheme = savedUi && savedUi.theme === 'dark' ? 'dark' : 'light';
   root.setAttribute('data-theme', currentTheme);
   $('themeToggle').addEventListener('click', ()=>{
@@ -1058,6 +1096,39 @@
   });
   $('matchContribution').addEventListener('click', ()=>setInvestmentContribution('match'));
 
+  function renderComparisonMode(){
+    const fair = comparisonMode === 'fair';
+    $('modeFair').classList.toggle('active',fair);
+    $('modeActual').classList.toggle('active',!fair);
+    $('modeTitle').textContent = fair ? 'Fair comparison' : 'My real balances';
+    $('modeNote').textContent = fair
+      ? 'Same personal savings rate and no starting balance, so the choices are compared on equal footing.'
+      : 'Uses the PVD and investment balances entered under Adjustments. Different starting points are intentional.';
+  }
+  function setComparisonMode(mode){
+    comparisonMode = mode;
+    if(mode === 'fair'){
+      els.existingPvd.value = 0;
+      els.existingInvestment.value = 0;
+      setToggle(toggles.existing,false);
+      els.investContribution.value = els.pvdEmployee.value;
+      [els.existingPvd,els.existingInvestment,els.investContribution].forEach(syncSliderFill);
+      syncContributionPreset();
+    }
+    renderComparisonMode();
+    compute();
+  }
+  $('modeFair').addEventListener('click',()=>setComparisonMode('fair'));
+  $('modeActual').addEventListener('click',()=>setComparisonMode('actual'));
+  if(comparisonMode === 'fair'){
+    els.existingPvd.value = 0;
+    els.existingInvestment.value = 0;
+    setToggle(toggles.existing,false);
+    els.investContribution.value = els.pvdEmployee.value;
+    [els.existingPvd,els.existingInvestment,els.investContribution].forEach(syncSliderFill);
+  }
+  renderComparisonMode();
+
   function syncPresetHighlight(row, el, val){
     document.querySelectorAll('#'+row+' .preset-btn').forEach(b=>{
       b.classList.toggle('active', parseFloat(b.dataset.return) === parseFloat(val));
@@ -1081,6 +1152,8 @@
     syncPresetHighlight('presetRowPvd', els.pvdReturn, DEFAULTS.pvdReturn);
     syncPresetHighlight('presetRowInv', els.investReturn, DEFAULTS.investReturn);
     syncContributionPreset();
+    comparisonMode = 'fair';
+    renderComparisonMode();
     compute();
   });
 
@@ -1093,6 +1166,18 @@
   Object.values(els).forEach(el=>{
     syncSliderFill(el);
     el.addEventListener('input', ()=>{
+      if(comparisonMode === 'fair' && (el===els.existingPvd || el===els.existingInvestment)){
+        comparisonMode = 'actual';
+        renderComparisonMode();
+      }
+      if(comparisonMode === 'fair' && el===els.pvdEmployee){
+        els.investContribution.value = els.pvdEmployee.value;
+        syncSliderFill(els.investContribution);
+      }
+      if(comparisonMode === 'fair' && el===els.investContribution && Math.abs(parseFloat(el.value)-parseFloat(els.pvdEmployee.value))>.001){
+        comparisonMode = 'actual';
+        renderComparisonMode();
+      }
       syncSliderFill(el);
       if(el===els.pvdReturn) syncPresetHighlight('presetRowPvd', el, el.value);
       if(el===els.investReturn) syncPresetHighlight('presetRowInv', el, el.value);
@@ -1495,12 +1580,6 @@
     $('gap-label').textContent = ranked[0].name+' leads';
     $('gap-pct').textContent = fmt(ranked[0].value-ranked[1].value)+' vs next';
 
-    $('kpi-pvd').textContent = fmt(last.pvdBalance);
-    $('kpi-pvd-sub').textContent = (v.endAge-v.startAge)+' yrs · '+(v.pvdReturn*100).toFixed(1)+'%/yr net';
-    $('kpi-inv').textContent = fmt(last.investAddBalance);
-    $('kpi-inv-sub').textContent = (v.investContributionRate*100).toFixed(1)+'% added · '+(netInvestReturn*100).toFixed(1)+'%/yr net';
-    $('kpi-hold').textContent = fmt(last.investHoldBalance);
-    $('kpi-hold-sub').textContent = 'No additions · '+(netInvestReturn*100).toFixed(1)+'%/yr net';
     $('kpi-forfeit').textContent = v.employerCash ? fmt(0) : fmt(totals.employerForfeitFutureValue);
     $('kpi-forfeit-sub').textContent = v.employerCash ? 'Employer cash is included in Scenario B' : 'Projected PVD value of employer money not received';
     $('kpi-breakeven').textContent = Number.isFinite(beRate) ? (beRate*100).toFixed(1)+'%' : 'N/A';
