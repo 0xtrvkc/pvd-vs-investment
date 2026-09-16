@@ -1,7 +1,7 @@
 {
-  "name": "pvd vs investment",
-  "short_name": "pvd<>investment",
-  "description": "pvd vs investment",
+  "name": "PVD vs Investment Scenario Lab",
+  "short_name": "PVD Scenario Lab",
+  "description": "Compare PVD, investment with additions, and investment with no additions.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

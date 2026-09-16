@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>PVD vs. Self-Directed Investing — Retirement Comparison</title>
+<title>PVD vs. Investment — Three-Path Retirement Simulator</title>
 
 <!-- iOS home screen icon -->
 <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -21,7 +21,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   
   <link rel="icon" type="image/png" href="data:image/png;base64,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">
-<meta name="description" content="A mobile-friendly tool comparing staying in your Provident Fund (PVD) vs. opting out and investing the same money yourself — projections, break-even analysis, and year-by-year detail.">
+<meta name="description" content="Compare PVD, an investment portfolio with ongoing additions, and the same portfolio with no new money — with independent contribution rates, monthly compounding, and break-even analysis.">
 <style>
   :root{
     --blue:#0071E3;
@@ -31,6 +31,7 @@
     --orange:#FF9F0A;
     --red:#FF3B30;
     --teal:#32ADE6;
+    --hold:#12A594;
 
     --sky-a:#7FB2FF;
     --sky-b:#B9A3EE;
@@ -60,6 +61,7 @@
     --pvd-soft:rgba(0,113,227,0.16);
     --inv:#AF52DE;
     --inv-soft:rgba(175,82,222,0.16);
+    --hold-soft:rgba(18,165,148,0.16);
   }
 
   html[data-theme="dark"]{
@@ -77,6 +79,7 @@
     --shadow-window:0 30px 80px -20px rgba(0,0,0,0.7), 0 10px 30px -10px rgba(0,0,0,0.5);
     --pvd-soft:rgba(0,113,227,0.28);
     --inv-soft:rgba(175,82,222,0.28);
+    --hold-soft:rgba(18,165,148,0.28);
   }
 
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
@@ -270,7 +273,7 @@
   .page-title{font-family:var(--font-display); font-size:20px; font-weight:700; margin:0 0 6px; letter-spacing:-0.2px; line-height:1.25;}
   .page-sub{font-size:13px; color:var(--ink-soft); margin:0 0 18px; line-height:1.6; max-width:760px;}
 
-  /* ---- scoreboard hero: stacked by default, side-by-side once there's room ---- */
+  /* ---- scoreboard hero: three account paths, stacked until there is room ---- */
   .scoreboard{
     border-radius:var(--radius-lg); overflow:hidden; margin-bottom:16px;
     box-shadow:0 16px 40px -18px rgba(0,0,0,0.35);
@@ -280,20 +283,16 @@
   .score-side{padding:20px 20px 22px; color:#fff; position:relative;}
   .score-side.pvd{background:linear-gradient(135deg,#0071E3 0%,#4C8CFF 100%);}
   .score-side.inv{background:linear-gradient(135deg,#AF52DE 0%,#8E5CE8 100%);}
+  .score-side.hold{background:linear-gradient(135deg,#0E8F82 0%,#19B8A7 100%);}
   .score-eyebrow{font-size:11px; font-weight:700; letter-spacing:0.6px; text-transform:uppercase; opacity:0.88; margin:0 0 6px; display:flex; align-items:center; gap:6px;}
   .score-number{font-family:var(--font-display); font-size:30px; font-weight:750; letter-spacing:-1px; margin:0; line-height:1.08;}
   .score-caption{font-size:12px; opacity:0.92; margin-top:8px; line-height:1.5;}
   .score-crown{
-    position:absolute; top:18px; right:18px; font-size:19px; opacity:0; transition:opacity .2s;
+    position:absolute; top:16px; right:16px; opacity:0; transition:opacity .2s;
+    padding:3px 7px; border-radius:999px; background:rgba(255,255,255,.2);
+    font-size:8px; font-weight:800; letter-spacing:.7px;
   }
   .score-crown.show{opacity:1;}
-  .score-vs{
-    display:flex; align-items:center; justify-content:center;
-    width:38px; height:38px; margin:-19px auto; position:relative; z-index:2;
-    border-radius:50%; background:var(--card-strong);
-    font-family:var(--font-display); font-size:11px; font-weight:800; color:var(--ink-soft);
-    box-shadow:0 3px 10px rgba(0,0,0,0.2); border:3px solid var(--paper-solid);
-  }
   .score-gap-bar{
     grid-column:1/-1; background:var(--card-strong); padding:12px 18px 16px; display:flex; flex-wrap:wrap; align-items:center; gap:10px;
     border-top:1px solid var(--hairline);
@@ -313,6 +312,7 @@
   .kpi-value.c-purple{color:var(--purple);}
   .kpi-value.c-orange{color:var(--orange);}
   .kpi-value.c-red{color:var(--red);}
+  .kpi-value.c-teal{color:var(--hold);}
   .kpi-sub{font-size:10.5px; color:var(--ink-soft); margin-top:6px; line-height:1.5;}
 
   .panel{
@@ -333,6 +333,27 @@
   }
   .badge.pvd{background:var(--pvd-soft); color:var(--blue);}
   .badge.inv{background:var(--inv-soft); color:var(--purple);}
+  .badge.hold{background:var(--hold-soft); color:var(--hold);}
+
+  .model-strip{
+    display:grid; grid-template-columns:1fr; gap:8px; margin:0 0 14px;
+  }
+  .model-cell{
+    background:var(--card); border:1px solid var(--hairline); border-radius:var(--radius-md);
+    padding:11px 13px; min-width:0;
+  }
+  .model-label{display:flex; align-items:center; gap:7px; margin:0 0 4px; color:var(--ink); font-size:11px; font-weight:750; text-transform:uppercase; letter-spacing:.35px;}
+  .model-label i{width:8px; height:8px; border-radius:50%; display:inline-block; flex:0 0 auto;}
+  .model-value{font-family:var(--font-mono); font-size:11px; color:var(--ink-soft); line-height:1.5; margin:0;}
+  .parity-callout{
+    display:flex; flex-direction:column; align-items:flex-start; gap:8px; margin:0 0 14px; padding:11px 13px;
+    border:1px solid rgba(255,159,10,.32); background:rgba(255,159,10,.09); border-radius:var(--radius-md);
+    color:var(--ink-soft); font-size:12px; line-height:1.5;
+  }
+  .parity-callout.is-fair{border-color:rgba(47,179,80,.3); background:rgba(47,179,80,.08);}
+  .parity-callout b{color:var(--ink);}
+  .parity-action{border:1px solid var(--hairline-strong); background:var(--card-strong); color:var(--ink); border-radius:8px; padding:7px 10px; font:600 11px var(--font-text); cursor:pointer; white-space:nowrap;}
+  .parity-action:hover{background:var(--track);}
 
   .legend{display:flex; gap:14px; font-size:11.5px; margin-bottom:8px; flex-wrap:wrap;}
   .legend span{display:flex; align-items:center; gap:6px; color:var(--ink-soft); font-weight:500;}
@@ -351,7 +372,12 @@
     border:1px solid var(--hairline-strong); background:var(--card-strong);
   }
   .insight b{font-weight:700;}
-  .insight .ico{font-size:15px; margin-right:6px;}
+  .insight .ico{width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:8px; vertical-align:1px; background:var(--ink-faint);}
+  .insight .ico.blue{background:var(--blue);}
+  .insight .ico.purple{background:var(--purple);}
+  .insight .ico.hold{background:var(--hold);}
+  .insight .ico.orange{background:var(--orange);}
+  .insight .ico.red{background:var(--red);}
 
   /* ---------- comparison table (scrolls horizontally on narrow screens) ---------- */
   .compare-table-wrap{overflow-x:auto; border-radius:var(--radius-md); -webkit-overflow-scrolling:touch;}
@@ -362,9 +388,10 @@
   }
   .compare-table td{padding:10px 12px; border-bottom:1px solid var(--hairline); vertical-align:top; color:var(--ink); line-height:1.5;}
   .compare-table tr:last-child td{border-bottom:none;}
-  .compare-table td:first-child{font-weight:600; color:var(--ink-soft); width:16%; white-space:nowrap;}
-  .compare-table td.pvd-col{width:42%; border-left:2px solid var(--pvd-soft);}
-  .compare-table td.inv-col{width:42%; border-left:2px solid var(--inv-soft);}
+  .compare-table td:first-child{font-weight:600; color:var(--ink-soft); width:14%; white-space:nowrap;}
+  .compare-table td.pvd-col{width:28.66%; border-left:2px solid var(--pvd-soft);}
+  .compare-table td.inv-col{width:28.66%; border-left:2px solid var(--inv-soft);}
+  .compare-table td.hold-col{width:28.66%; border-left:2px solid var(--hold-soft);}
 
   /* ---------- data table (scrolls both ways on narrow screens) ---------- */
   .table-wrap{max-height:380px; overflow:auto; border-radius:var(--radius-md); border:1px solid var(--hairline); -webkit-overflow-scrolling:touch;}
@@ -386,6 +413,7 @@
   table.log tbody tr.milestone td:first-child::after{content:" ●"; color:var(--orange); font-size:8px; vertical-align:middle;}
   table.log td.win-pvd{color:var(--blue); font-weight:700;}
   table.log td.win-inv{color:var(--purple); font-weight:700;}
+  table.log td.win-hold{color:var(--hold); font-weight:700;}
 
   .assumptions{font-size:12.5px; color:var(--ink-soft); line-height:1.75;}
   .assumptions b{color:var(--ink); font-weight:600;}
@@ -446,19 +474,17 @@
     .preset-btn{padding:7px 4px; min-height:auto; font-size:11px;}
     .reset-btn{padding:10px; min-height:auto; font-size:12.5px;}
 
-    .scoreboard{grid-template-columns:1fr 1fr;}
+    .scoreboard{grid-template-columns:repeat(3,1fr);}
     .score-side{padding:24px 26px;}
     .score-number{font-size:34px;}
-    .score-vs{
-      position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-      width:52px; height:52px; margin:0;
-    }
     .score-gap-bar{padding:12px 26px; flex-wrap:nowrap;}
     .score-gap-track{flex:1 1 auto; order:0;}
 
     .kpi-grid{grid-template-columns:repeat(6,1fr); gap:11px;}
     .grid-2{grid-template-columns:1fr 1fr; gap:16px;}
     .insight-grid{grid-template-columns:1fr 1fr; gap:14px;}
+    .model-strip{grid-template-columns:repeat(3,1fr);}
+    .parity-callout{flex-direction:row; align-items:center; justify-content:space-between;}
     .panel{padding:20px 22px 22px;}
     .panel-head{flex-wrap:nowrap;}
   }
@@ -477,7 +503,7 @@
 
   <div class="titlebar">
     <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
-    <div class="titlebar-title">PVD vs. Self-Directed Investing</div>
+    <div class="titlebar-title">PVD vs. Investment · Scenario Lab</div>
     <div class="titlebar-actions">
       <div class="seg" id="unitSeg">
         <button id="unitFull" class="active" data-unit="full">฿</button>
@@ -492,14 +518,14 @@
     <!-- ================= SIDEBAR ================= -->
     <aside class="sidebar">
       <button class="sidebar-toggle" id="sidebarToggle" aria-expanded="false">
-        <span class="sidebar-toggle-text"><span class="sidebar-toggle-ico">⚙️</span> Adjust your inputs</span>
+        <span class="sidebar-toggle-text">Adjust your inputs</span>
         <span class="sidebar-toggle-chev" id="sidebarChev">▾</span>
       </button>
       <div class="sidebar-body" id="sidebarBody">
 
       <div class="side-group">
         <p class="side-group-title">Career &amp; salary</p>
-        <p class="side-group-desc">Your working years and salary path — the base both scenarios contribute from.</p>
+        <p class="side-group-desc">Your working years and salary path — the monthly cash-flow base for both contribution scenarios.</p>
 
         <div class="field">
           <div class="field-row"><span class="field-label">Starting age</span><span class="field-value" id="val-startAge">28</span></div>
@@ -514,9 +540,9 @@
         </div>
 
         <div class="field">
-          <div class="field-row"><span class="field-label">Starting salary /yr</span><span class="field-value" id="val-startSalary">200,000</span></div>
-          <input type="range" id="startSalary" min="100000" max="3000000" step="10000" value="200000">
-          <div class="range-minmax"><span>100K</span><span>3M</span></div>
+          <div class="field-row"><span class="field-label">Starting salary /yr</span><span class="field-value" id="val-startSalary">600,000</span></div>
+          <input type="range" id="startSalary" min="120000" max="6000000" step="10000" value="600000">
+          <div class="range-minmax"><span>120K</span><span>6M</span></div>
         </div>
 
         <div class="field">
@@ -528,11 +554,11 @@
 
       <div class="side-group">
         <p class="side-group-title">PVD contribution rates</p>
-        <p class="side-group-desc">Thai law allows 2–15% of salary per side. This is also the amount you'd redirect into self-investing if you opt out.</p>
+        <p class="side-group-desc">PVD requires an employee contribution to receive the employer contribution. The investment rate below is independent.</p>
 
         <div class="field">
-          <div class="field-row"><span class="field-label">Your (employee) rate</span><span class="field-value" id="val-pvdEmployee">3.0%</span></div>
-          <input type="range" id="pvdEmployee" min="2" max="15" step="0.5" value="3">
+          <div class="field-row"><span class="field-label">Your (employee) rate</span><span class="field-value" id="val-pvdEmployee">5.0%</span></div>
+          <input type="range" id="pvdEmployee" min="2" max="15" step="0.5" value="5">
           <div class="range-minmax"><span>2%</span><span>15%</span></div>
         </div>
 
@@ -543,9 +569,9 @@
           </div>
           <div class="toggle-body" id="body-employer">
             <div class="toggle-body-inner">
-              <div class="field-row" style="margin-top:2px;"><span class="field-label">Employer rate</span><span class="field-value" id="val-pvdEmployer">3.0%</span></div>
-              <input type="range" id="pvdEmployer" min="0" max="15" step="0.5" value="3">
-              <div class="range-minmax"><span>0%</span><span>15%</span></div>
+              <div class="field-row" style="margin-top:2px;"><span class="field-label">Employer rate</span><span class="field-value" id="val-pvdEmployer">5.0%</span></div>
+              <input type="range" id="pvdEmployer" min="2" max="15" step="0.5" value="5">
+              <div class="range-minmax"><span>2%</span><span>15%</span></div>
             </div>
           </div>
         </div>
@@ -557,20 +583,32 @@
 
         <div class="preset-row" id="presetRowPvd">
           <button class="preset-btn" data-return="0">No growth<br>0%</button>
-          <button class="preset-btn active" data-return="2">Conservative<br>2%</button>
-          <button class="preset-btn" data-return="4">Balanced<br>4%</button>
+          <button class="preset-btn" data-return="2">Conservative<br>2%</button>
+          <button class="preset-btn active" data-return="4">Balanced<br>4%</button>
         </div>
         <div class="field" style="margin-top:10px;">
-          <div class="field-row"><span class="field-label">PVD fund return</span><span class="field-value" id="val-pvdReturn">2.0%</span></div>
-          <input type="range" id="pvdReturn" min="0" max="12" step="0.5" value="2">
-          <div class="range-minmax"><span>0%</span><span>12%</span></div>
-          <div class="hint">The original spreadsheet assumed 0% growth — just a running total of contributions. Real PVD funds invest, so a small positive return is more realistic.</div>
+          <div class="field-row"><span class="field-label">PVD net return</span><span class="field-value" id="val-pvdReturn">4.0%</span></div>
+          <input type="range" id="pvdReturn" min="-20" max="30" step="0.1" value="4">
+          <div class="range-minmax"><span>−20%</span><span>30%</span></div>
+          <div class="hint">Use the long-run return after fund fees. Negative assumptions are supported for stress testing.</div>
         </div>
       </div>
 
       <div class="side-group">
-        <p class="side-group-title">Scenario B — Opt out, invest yourself</p>
-        <p class="side-group-desc">You keep your own share instead of sending it to PVD, and invest it on your own.</p>
+        <p class="side-group-title">Scenarios B &amp; C — Investment portfolio</p>
+        <p class="side-group-desc">Both start from your current portfolio. B adds your chosen percentage monthly; C adds nothing and only compounds.</p>
+
+        <div class="preset-row" id="presetRowContribution">
+          <button class="preset-btn inv" data-contribution="0">Add nothing<br>0%</button>
+          <button class="preset-btn inv active" data-contribution="match">Match PVD<br>5%</button>
+          <button class="preset-btn inv" data-contribution="10">Save more<br>10%</button>
+        </div>
+        <div class="field" style="margin-top:10px;">
+          <div class="field-row"><span class="field-label">Investment addition / salary</span><span class="field-value" id="val-investContribution">5.0%</span></div>
+          <input type="range" id="investContribution" min="0" max="100" step="0.1" value="5">
+          <div class="range-minmax"><span>0%</span><span>100%</span></div>
+          <div class="hint">Independent from PVD. Set any rate from 0–100%; the separate “no additions” path always stays at 0%.</div>
+        </div>
 
         <div class="preset-row" id="presetRowInv">
           <button class="preset-btn inv" data-return="4">Conservative<br>4%</button>
@@ -578,9 +616,9 @@
           <button class="preset-btn inv" data-return="12">Growth<br>12%</button>
         </div>
         <div class="field" style="margin-top:10px;">
-          <div class="field-row"><span class="field-label">Investment return</span><span class="field-value" id="val-investReturn">8.0%</span></div>
-          <input type="range" id="investReturn" min="0" max="20" step="0.5" value="8">
-          <div class="range-minmax"><span>0%</span><span>20%</span></div>
+          <div class="field-row"><span class="field-label">Investment gross return</span><span class="field-value" id="val-investReturn">8.0%</span></div>
+          <input type="range" id="investReturn" min="-50" max="100" step="0.1" value="8">
+          <div class="range-minmax"><span>−50%</span><span>100%</span></div>
           <div class="hint" id="doubleHint"></div>
         </div>
 
@@ -637,11 +675,18 @@
           </div>
           <div class="toggle-body" id="body-existing">
             <div class="toggle-body-inner">
-              <div class="field-row" style="margin-top:2px;"><span class="field-label">Current balance (฿)</span><span class="field-value" id="val-existingBalance">0</span></div>
-              <input type="range" id="existingBalance" min="0" max="2000000" step="10000" value="0">
-              <div class="range-minmax"><span>0</span><span>2M</span></div>
+              <div class="field-row" style="margin-top:2px;"><span class="field-label">Current PVD balance (฿)</span><span class="field-value" id="val-existingPvd">0</span></div>
+              <input type="range" id="existingPvd" min="0" max="20000000" step="10000" value="0">
+              <div class="range-minmax"><span>0</span><span>20M</span></div>
             </div>
           </div>
+        </div>
+
+        <div class="field">
+          <div class="field-row"><span class="field-label">Current investment portfolio</span><span class="field-value" id="val-existingInvestment">500,000</span></div>
+          <input type="range" id="existingInvestment" min="0" max="50000000" step="10000" value="500000">
+          <div class="range-minmax"><span>0</span><span>50M</span></div>
+          <div class="hint">This same starting value is used for both investment paths, so the only difference is whether you keep adding money.</div>
         </div>
 
         <div class="toggle-field">
@@ -665,29 +710,55 @@
 
     <!-- ================= MAIN ================= -->
     <main class="main">
-      <h1 class="page-title">Should you stay in PVD, or invest the money yourself?</h1>
-      <p class="page-sub">You put part of your salary into your Provident Fund every month, and your employer matches it. This tool asks the real question: <b>what if you skipped PVD and invested that same money yourself instead?</b> Adjust any control on the left — every number and chart below updates live.</p>
+      <h1 class="page-title">PVD, invest and add, or leave the portfolio alone?</h1>
+      <p class="page-sub">Compare three monthly-compounded paths at once: <b>PVD with employee + employer money</b>, <b>your investment portfolio with additions at any percentage of salary</b>, and <b>the same portfolio with no new money</b>. Each path keeps its own starting balance and cash-flow rules.</p>
+
+      <div class="model-strip" aria-label="Active scenario assumptions">
+        <div class="model-cell">
+          <p class="model-label"><i style="background:var(--blue)"></i>PVD · add required</p>
+          <p class="model-value" id="modelPvd">—</p>
+        </div>
+        <div class="model-cell">
+          <p class="model-label"><i style="background:var(--purple)"></i>Investment · add</p>
+          <p class="model-value" id="modelInvestAdd">—</p>
+        </div>
+        <div class="model-cell">
+          <p class="model-label"><i style="background:var(--hold)"></i>Investment · no add</p>
+          <p class="model-value" id="modelInvestHold">—</p>
+        </div>
+      </div>
+
+      <div class="parity-callout" id="parityCallout">
+        <span id="parityText">Checking whether the personal cash flows are comparable…</span>
+        <button class="parity-action" id="matchContribution" type="button">Match PVD employee rate</button>
+      </div>
 
       <!-- Scoreboard -->
       <div class="scoreboard">
         <div class="score-side pvd">
-          <div class="score-crown" id="crown-pvd">🏆</div>
+          <div class="score-crown" id="crown-pvd">LEAD</div>
           <p class="score-eyebrow"><span class="badge pvd" style="background:rgba(255,255,255,0.25); color:#fff;">Scenario A</span> Stay in PVD</p>
           <p class="score-number" id="out-pvd">฿0</p>
           <p class="score-caption" id="out-pvd-sub">Employee + employer contributions, fund growth</p>
         </div>
         <div class="score-side inv">
-          <div class="score-crown" id="crown-inv">🏆</div>
-          <p class="score-eyebrow"><span class="badge inv" style="background:rgba(255,255,255,0.25); color:#fff;">Scenario B</span> Invest it yourself</p>
+          <div class="score-crown" id="crown-inv">LEAD</div>
+          <p class="score-eyebrow"><span class="badge inv" style="background:rgba(255,255,255,0.25); color:#fff;">Scenario B</span> Invest + add</p>
           <p class="score-number" id="out-inv">฿0</p>
-          <p class="score-caption" id="out-inv-sub">Your contribution only, invested on your own</p>
+          <p class="score-caption" id="out-inv-sub">Current portfolio + your chosen monthly addition</p>
         </div>
-        <div class="score-vs">VS</div>
+        <div class="score-side hold">
+          <div class="score-crown" id="crown-hold">LEAD</div>
+          <p class="score-eyebrow"><span class="badge hold" style="background:rgba(255,255,255,0.25); color:#fff;">Scenario C</span> Invest + no add</p>
+          <p class="score-number" id="out-hold">฿0</p>
+          <p class="score-caption" id="out-hold-sub">Current portfolio compounds without new money</p>
+        </div>
         <div class="score-gap-bar">
           <span class="score-gap-label" id="gap-label">Even so far</span>
           <div class="score-gap-track">
-            <div class="score-gap-fill" id="gap-fill-pvd" style="background:var(--blue); width:50%;"></div>
-            <div class="score-gap-fill" id="gap-fill-inv" style="background:var(--purple); width:50%;"></div>
+            <div class="score-gap-fill" id="gap-fill-pvd" style="background:var(--blue); width:33.33%;"></div>
+            <div class="score-gap-fill" id="gap-fill-inv" style="background:var(--purple); width:33.33%;"></div>
+            <div class="score-gap-fill" id="gap-fill-hold" style="background:var(--hold); width:33.34%;"></div>
           </div>
           <span class="score-gap-label" id="gap-pct">—</span>
         </div>
@@ -700,14 +771,14 @@
           <p class="kpi-sub" id="kpi-pvd-sub">—</p>
         </div>
         <div class="kpi">
-          <p class="kpi-label">Self-invest balance</p>
+          <p class="kpi-label">Investment + additions</p>
           <p class="kpi-value c-purple" id="kpi-inv">฿0</p>
           <p class="kpi-sub" id="kpi-inv-sub">—</p>
         </div>
         <div class="kpi">
-          <p class="kpi-label">Gap at retirement</p>
-          <p class="kpi-value" id="kpi-gap">฿0</p>
-          <p class="kpi-sub" id="kpi-gap-sub">—</p>
+          <p class="kpi-label">Investment + no additions</p>
+          <p class="kpi-value c-teal" id="kpi-hold">฿0</p>
+          <p class="kpi-sub" id="kpi-hold-sub">—</p>
         </div>
         <div class="kpi">
           <p class="kpi-label">Employer match forfeited</p>
@@ -720,9 +791,9 @@
           <p class="kpi-sub" id="kpi-breakeven-sub">To match PVD, self-invest alone must earn this</p>
         </div>
         <div class="kpi">
-          <p class="kpi-label">Winner's growth multiple</p>
-          <p class="kpi-value c-green" id="kpi-multiple">1.0×</p>
-          <p class="kpi-sub" id="kpi-multiple-sub">Balance ÷ money actually put in</p>
+          <p class="kpi-label">Value created by adding</p>
+          <p class="kpi-value c-green" id="kpi-add-value">฿0</p>
+          <p class="kpi-sub" id="kpi-add-value-sub">B minus C at retirement</p>
         </div>
       </div>
 
@@ -730,7 +801,7 @@
       <div class="panel">
         <div class="panel-head">
           <div>
-            <p class="panel-title">📌 Summary</p>
+            <p class="panel-title">Summary</p>
             <p class="panel-note">The headline takeaways for your current settings.</p>
           </div>
         </div>
@@ -741,14 +812,15 @@
       <div class="panel">
         <div class="panel-head">
           <div>
-            <p class="panel-title">Growth trajectory — PVD vs. self-invest</p>
-            <p class="panel-note">Both balances, year by year. The shaded band shows who's ahead at each age.</p>
+            <p class="panel-title">Growth trajectory — all three paths</p>
+            <p class="panel-note">Monthly cash flows and compounding, sampled at each birthday.</p>
           </div>
           <button class="panel-action" id="exportCsv">Export CSV</button>
         </div>
         <div class="legend">
           <span><i class="line" style="background:var(--blue)"></i>PVD balance</span>
-          <span><i class="line" style="background:var(--purple)"></i>Self-invest balance</span>
+          <span><i class="line" style="background:var(--purple)"></i>Investment + add</span>
+          <span><i class="line" style="background:var(--hold)"></i>Investment + no add</span>
         </div>
         <svg class="chart" id="chartTrajectory" viewBox="0 0 900 300"></svg>
       </div>
@@ -758,7 +830,7 @@
           <div class="panel-head">
             <div>
               <p class="panel-title">Where the money comes from</p>
-              <p class="panel-note">Final balance split by source, for each scenario.</p>
+              <p class="panel-note">Starting capital, new money and growth for each path.</p>
             </div>
           </div>
           <div class="legend" id="compLegend"></div>
@@ -769,7 +841,7 @@
           <div class="panel-head">
             <div>
               <p class="panel-title">Break-even analysis</p>
-              <p class="panel-note">What self-invest return rate is needed to match PVD?</p>
+              <p class="panel-note">Gross investment return needed for “investment + add” to match PVD.</p>
             </div>
           </div>
           <div class="legend" id="sensLegend"></div>
@@ -781,12 +853,13 @@
         <div class="panel-head">
           <div>
             <p class="panel-title">Real (inflation-adjusted) comparison</p>
-            <p class="panel-note">Both balances re-stated in today's purchasing power, so the comparison isn't flattered by inflation.</p>
+            <p class="panel-note">All balances re-stated in today's purchasing power, so inflation does not flatter the result.</p>
           </div>
         </div>
         <div class="legend">
           <span><i class="line" style="background:var(--blue)"></i>PVD (real)</span>
-          <span><i class="line" style="background:var(--purple)"></i>Self-invest (real)</span>
+          <span><i class="line" style="background:var(--purple)"></i>Investment + add (real)</span>
+          <span><i class="line" style="background:var(--hold)"></i>Investment + no add (real)</span>
         </div>
         <svg class="chart" id="chartReal" viewBox="0 0 900 220"></svg>
       </div>
@@ -800,16 +873,14 @@
           </div>
         </div>
         <div class="compare-table-wrap">
-        <table class="compare-table">
-          <thead><tr><th></th><th>PVD (stay in)</th><th>Self-directed investing</th></tr></thead>
+        <table class="compare-table" style="min-width:760px;">
+          <thead><tr><th></th><th>PVD (add required)</th><th>Investment + add</th><th>Investment + no add</th></tr></thead>
           <tbody>
-            <tr><td>Employer match</td><td class="pvd-col">Guaranteed — an instant, risk-free return on your own contribution.</td><td class="inv-col">None, unless your employer explicitly pays the match as cash salary.</td></tr>
-            <tr><td>Tax treatment</td><td class="pvd-col">Contributions reduce taxable income; growth is tax-exempt until withdrawal.</td><td class="inv-col">Contributions come from already-taxed income; gains may face fees, dividend tax, or capital-gains tax depending on the vehicle.</td></tr>
-            <tr><td>Investment control</td><td class="pvd-col">Limited to your fund's policy options (money market, fixed income, balanced, equity).</td><td class="inv-col">Full control — any asset class, fund, or strategy you choose.</td></tr>
-            <tr><td>Liquidity</td><td class="pvd-col">Locked until resignation, retirement, or fund-permitted early withdrawal (often with tax penalty).</td><td class="inv-col">Generally liquid — you can sell and access cash any time.</td></tr>
-            <tr><td>Discipline</td><td class="pvd-col">Automatic payroll deduction — contributions happen whether you remember to or not.</td><td class="inv-col">Requires self-discipline to actually invest every month rather than spend it.</td></tr>
-            <tr><td>Fees</td><td class="pvd-col">Fund management fees, typically low and disclosed by the AMC.</td><td class="inv-col">Brokerage, fund, or platform fees vary widely by what you choose.</td></tr>
-            <tr><td>Risk exposure</td><td class="pvd-col">Bounded by your selected policy risk level; diversified by the AMC.</td><td class="inv-col">Depends entirely on what you pick — can be higher or lower risk than PVD.</td></tr>
+            <tr><td>New money</td><td class="pvd-col">Employee and employer percentages are added every month.</td><td class="inv-col">Your chosen 0–100% rate is added every month.</td><td class="hold-col">No additions; only the starting portfolio compounds.</td></tr>
+            <tr><td>Employer match</td><td class="pvd-col">Received inside PVD under the employer's rules.</td><td class="inv-col">None, unless the employer pays an equivalent cash benefit.</td><td class="hold-col">None.</td></tr>
+            <tr><td>Tax treatment</td><td class="pvd-col">Contributions may reduce taxable income; qualifying withdrawals can receive favorable treatment.</td><td class="inv-col">New additions normally come from after-tax income; product taxes and fees vary.</td><td class="hold-col">No new contribution deduction; existing holdings keep their own tax treatment.</td></tr>
+            <tr><td>Control &amp; liquidity</td><td class="pvd-col">Limited to fund policies and normally locked until an eligible exit.</td><td class="inv-col">Full investment control and generally liquid, depending on the product.</td><td class="hold-col">Same control and liquidity, but no savings habit is modeled.</td></tr>
+            <tr><td>Behavior</td><td class="pvd-col">Automatic payroll deduction supports consistency.</td><td class="inv-col">Requires recurring execution or an automated investment plan.</td><td class="hold-col">Easy to maintain, but retirement capital relies only on existing money and returns.</td></tr>
           </tbody>
         </table>
         </div>
@@ -819,7 +890,7 @@
         <div class="panel-head">
           <div>
             <p class="panel-title">Year-by-year schedule</p>
-            <p class="panel-note">Full contribution and balance detail for every year, both scenarios side by side.</p>
+            <p class="panel-note">Annual totals generated from the monthly engine, with all three balances side by side.</p>
           </div>
         </div>
         <div class="table-wrap">
@@ -828,7 +899,7 @@
               <tr>
                 <th>Age</th><th>Salary</th>
                 <th>PVD Employee</th><th>PVD Employer</th><th>PVD Balance</th>
-                <th>Self-Invest Contrib.</th><th>Self-Invest Balance</th>
+                <th>Investment Additions</th><th>Invest + Add</th><th>Invest + No Add</th>
                 <th>Gap (B − A)</th>
               </tr>
             </thead>
@@ -840,11 +911,11 @@
       <div class="panel">
         <p class="panel-title" style="margin-bottom:10px;">How this is calculated</p>
         <div class="assumptions">
-          Each year your salary grows by your chosen rate. In <b>Scenario A</b>, you and your employer each contribute a percentage of that year's salary into PVD; the running balance compounds annually at your chosen PVD fund return. In <b>Scenario B</b>, you keep your own contribution instead (same amount, same schedule) and invest it yourself; that balance compounds annually at your chosen investment return, net of any fees/tax drag you've enabled. The employer match is not received in Scenario B unless you've explicitly turned that toggle on.
-          <div class="fixnote"><b>Fixed from the original spreadsheet:</b> the source file's "investment" column referenced the cumulative PVD total instead of the employee's own annual contribution, and PVD balances were summed with no investment return at all (a static running total). This app corrects both: Scenario B now compounds your own contribution stream at a proper annual rate, and Scenario A applies a configurable — and by default, non-zero — PVD fund return, since real funds are invested rather than held as cash.</div>
+          The engine runs <b>month by month</b>. In <b>Scenario A</b>, PVD receives your employee percentage plus the employer percentage. In <b>Scenario B</b>, your existing investment portfolio receives an independent 0–100% of salary plus optional employer cash. In <b>Scenario C</b>, the same starting portfolio receives no new money. Returns are entered as effective annual rates and converted to equivalent monthly rates.
+          <div class="fixnote"><b>Comparison guardrail:</b> when the investment addition rate differs from your PVD employee rate, the app flags that the personal savings budgets are different. Use “Match PVD employee rate” for an apples-to-apples employee cash-flow comparison, or keep a different percentage intentionally.</div>
           <ul>
             <li><b>Thai PVD contribution limits:</b> both employee and employer contributions are legally set between 2% and 15% of salary.</li>
-            <li><b>Break-even return:</b> solved numerically — the self-invest return rate (holding your contribution, tax, and fee settings fixed) at which Scenario B's final balance equals Scenario A's.</li>
+            <li><b>Break-even return:</b> solved numerically — the gross investment return (holding starting balances, additions, tax and fee settings fixed) at which Scenario B equals Scenario A.</li>
             <li><b>Employer match forfeited:</b> shown as a future value — what those forgone employer contributions would have grown to by retirement, at the PVD fund return rate.</li>
             <li><b>Inflation view:</b> the real-comparison chart divides each year's balances by (1 + inflation)<sup>years elapsed</sup>. The year-by-year table always shows nominal (undiscounted) values.</li>
           </ul>
@@ -852,11 +923,12 @@
         <div class="disclaimer"><b>Not financial advice.</b> This tool is for illustration and planning discussion only. Actual PVD and investment returns vary by fund manager, product, and market conditions, and tax rules change over time. Speak with your fund's registered advisor or a licensed financial planner before making retirement decisions.</div>
       </div>
 
-      <footer>PVD vs. Self-Directed Investing · Educational simulator, not financial advice</footer>
+      <footer>PVD vs. Investment Scenario Lab · Educational simulator, not financial advice</footer>
     </main>
   </div>
 </div>
 
+<script src="calculator.js"></script>
 <script>
 (function(){
   "use strict";
@@ -865,13 +937,14 @@
   const els = {
     startAge: $('startAge'), endAge: $('endAge'), startSalary: $('startSalary'),
     salaryGrowth: $('salaryGrowth'), pvdEmployee: $('pvdEmployee'), pvdEmployer: $('pvdEmployer'),
-    pvdReturn: $('pvdReturn'), investReturn: $('investReturn'), drag: $('drag'),
-    taxRate: $('taxRate'), existingBalance: $('existingBalance'), inflation: $('inflation')
+    pvdReturn: $('pvdReturn'), investContribution: $('investContribution'), investReturn: $('investReturn'), drag: $('drag'),
+    taxRate: $('taxRate'), existingPvd: $('existingPvd'), existingInvestment: $('existingInvestment'), inflation: $('inflation')
   };
 
   const DEFAULTS = {
-    startAge:28, endAge:60, startSalary:200000, salaryGrowth:3, pvdEmployee:3, pvdEmployer:3,
-    pvdReturn:2, investReturn:8, drag:1, taxRate:10, existingBalance:0, inflation:2.5
+    startAge:28, endAge:60, startSalary:600000, salaryGrowth:3, pvdEmployee:5, pvdEmployer:5,
+    pvdReturn:4, investContribution:5, investReturn:8, drag:1, taxRate:10,
+    existingPvd:0, existingInvestment:500000, inflation:2.5
   };
 
   const toggles = {
@@ -883,14 +956,48 @@
     inflation: {sw:$('switch-inflation'), body:$('body-inflation'), row:$('toggle-inflation'), on:false}
   };
 
+  const STORAGE_KEY = 'pvd-investment-scenario-lab-v2';
+  function setToggle(t, on){
+    t.on = Boolean(on);
+    t.sw.classList.toggle('on', t.on);
+    t.body.classList.toggle('open', t.on);
+    t.row.setAttribute('aria-checked', String(t.on));
+  }
+  function readStoredSettings(){
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); }
+    catch (_error) { return null; }
+  }
+  function restoreSettings(){
+    const saved = readStoredSettings();
+    if(!saved) return;
+    Object.entries(saved.inputs || {}).forEach(([key,value])=>{
+      if(els[key] && Number.isFinite(Number(value))) els[key].value = value;
+    });
+    Object.entries(saved.toggles || {}).forEach(([key,value])=>{
+      if(toggles[key]) setToggle(toggles[key], value);
+    });
+  }
+  function persistSettings(){
+    try {
+      const inputs = {};
+      Object.entries(els).forEach(([key,el])=>{ inputs[key] = Number(el.value); });
+      const toggleState = {};
+      Object.entries(toggles).forEach(([key,t])=>{ toggleState[key] = t.on; });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({inputs, toggles:toggleState, theme:currentTheme, displayInK}));
+    } catch (_error) { /* Private browsing can disable storage; calculations still work. */ }
+  }
+
   Object.values(toggles).forEach(t=>{
-    t.row.addEventListener('click', ()=>{
-      t.on = !t.on;
-      t.sw.classList.toggle('on', t.on);
-      t.body.classList.toggle('open', t.on);
-      compute();
+    t.row.setAttribute('role','switch');
+    t.row.setAttribute('tabindex','0');
+    setToggle(t, t.on);
+    const activate = ()=>{ setToggle(t, !t.on); compute(); };
+    t.row.addEventListener('click', activate);
+    t.row.addEventListener('keydown', event=>{
+      if(event.key==='Enter' || event.key===' '){ event.preventDefault(); activate(); }
     });
   });
+  restoreSettings();
 
   // ---------------- mobile sidebar drawer ----------------
   // On mobile the input panel starts collapsed so results show first; on desktop
@@ -906,14 +1013,18 @@
   // ---------------- theme ----------------
   const root = document.documentElement;
   function setTheme(mode){ root.setAttribute('data-theme', mode); compute(); }
-  let currentTheme = 'light';
+  const savedUi = readStoredSettings();
+  let currentTheme = savedUi && savedUi.theme === 'dark' ? 'dark' : 'light';
+  root.setAttribute('data-theme', currentTheme);
   $('themeToggle').addEventListener('click', ()=>{
     currentTheme = currentTheme === 'light' ? 'dark' : 'light';
     setTheme(currentTheme);
   });
 
   // ---------------- unit toggle ----------------
-  let displayInK = false;
+  let displayInK = Boolean(savedUi && savedUi.displayInK);
+  $('unitFull').classList.toggle('active', !displayInK);
+  $('unitK').classList.toggle('active', displayInK);
   $('unitFull').addEventListener('click', ()=>{displayInK=false; $('unitFull').classList.add('active'); $('unitK').classList.remove('active'); compute();});
   $('unitK').addEventListener('click', ()=>{displayInK=true; $('unitK').classList.add('active'); $('unitFull').classList.remove('active'); compute();});
 
@@ -936,18 +1047,40 @@
       compute();
     });
   });
+  function setInvestmentContribution(value){
+    const next = value === 'match' ? parseFloat(els.pvdEmployee.value) : parseFloat(value);
+    els.investContribution.value = Math.max(0, Math.min(100, next));
+    syncSliderFill(els.investContribution);
+    compute();
+  }
+  document.querySelectorAll('#presetRowContribution .preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>setInvestmentContribution(btn.dataset.contribution));
+  });
+  $('matchContribution').addEventListener('click', ()=>setInvestmentContribution('match'));
+
   function syncPresetHighlight(row, el, val){
     document.querySelectorAll('#'+row+' .preset-btn').forEach(b=>{
       b.classList.toggle('active', parseFloat(b.dataset.return) === parseFloat(val));
+    });
+  }
+  function syncContributionPreset(){
+    const pvdRate = parseFloat(els.pvdEmployee.value);
+    const investRate = parseFloat(els.investContribution.value);
+    const matchBtn = document.querySelector('#presetRowContribution [data-contribution="match"]');
+    matchBtn.innerHTML = 'Match PVD<br>'+pvdRate.toFixed(1)+'%';
+    document.querySelectorAll('#presetRowContribution .preset-btn').forEach(btn=>{
+      const target = btn.dataset.contribution === 'match' ? pvdRate : parseFloat(btn.dataset.contribution);
+      btn.classList.toggle('active', Math.abs(target-investRate)<0.001);
     });
   }
 
   // ---------------- reset ----------------
   $('resetBtn').addEventListener('click', ()=>{
     Object.keys(DEFAULTS).forEach(k=>{ if(els[k]){ els[k].value = DEFAULTS[k]; syncSliderFill(els[k]); }});
-    Object.values(toggles).forEach(t=>{ t.on=false; t.sw.classList.remove('on'); t.body.classList.remove('open'); });
+    Object.values(toggles).forEach(t=>setToggle(t, false));
     syncPresetHighlight('presetRowPvd', els.pvdReturn, DEFAULTS.pvdReturn);
     syncPresetHighlight('presetRowInv', els.investReturn, DEFAULTS.investReturn);
+    syncContributionPreset();
     compute();
   });
 
@@ -963,9 +1096,11 @@
       syncSliderFill(el);
       if(el===els.pvdReturn) syncPresetHighlight('presetRowPvd', el, el.value);
       if(el===els.investReturn) syncPresetHighlight('presetRowInv', el, el.value);
+      if(el===els.pvdEmployee || el===els.investContribution) syncContributionPreset();
       compute();
     });
   });
+  syncContributionPreset();
 
   function fmt(n){
     n = Math.round(n);
@@ -993,12 +1128,14 @@
       pvdEmployeeRate: parseFloat(els.pvdEmployee.value)/100,
       pvdEmployerRate: toggles.employer.on ? parseFloat(els.pvdEmployer.value)/100 : parseFloat(els.pvdEmployee.value)/100,
       pvdReturn: parseFloat(els.pvdReturn.value)/100,
+      investContributionRate: parseFloat(els.investContribution.value)/100,
       investReturn: parseFloat(els.investReturn.value)/100,
       employerCash: toggles.employerCash.on,
       drag: toggles.drag.on ? parseFloat(els.drag.value)/100 : 0,
       taxOn: toggles.tax.on,
       taxRate: toggles.tax.on ? parseFloat(els.taxRate.value)/100 : 0,
-      existingBalance: toggles.existing.on ? parseFloat(els.existingBalance.value) : 0,
+      existingPvd: toggles.existing.on ? parseFloat(els.existingPvd.value) : 0,
+      existingInvestment: parseFloat(els.existingInvestment.value),
       inflation: toggles.inflation.on ? parseFloat(els.inflation.value)/100 : 0
     };
   }
@@ -1011,10 +1148,12 @@
     $('val-pvdEmployee').textContent = (v.pvdEmployeeRate*100).toFixed(1)+'%';
     $('val-pvdEmployer').textContent = (parseFloat(els.pvdEmployer.value)).toFixed(1)+'%';
     $('val-pvdReturn').textContent = (v.pvdReturn*100).toFixed(1)+'%';
+    $('val-investContribution').textContent = (v.investContributionRate*100).toFixed(1)+'%';
     $('val-investReturn').textContent = (v.investReturn*100).toFixed(1)+'%';
     $('val-drag').textContent = parseFloat(els.drag.value).toFixed(2)+'%';
     $('val-taxRate').textContent = parseFloat(els.taxRate.value).toFixed(0)+'%';
-    $('val-existingBalance').textContent = fmtPlain(els.existingBalance.value);
+    $('val-existingPvd').textContent = fmtPlain(els.existingPvd.value);
+    $('val-existingInvestment').textContent = fmtPlain(els.existingInvestment.value);
     $('val-inflation').textContent = parseFloat(els.inflation.value).toFixed(1)+'%';
 
     const netR = (v.investReturn - v.drag)*100;
@@ -1023,69 +1162,10 @@
       : 'At 0% or less net return, this balance never grows beyond what you put in.';
   }
 
-  // ---------------- core simulation ----------------
-  // Scenario A (PVD): balance compounds at pvdReturn; contributions = employee + employer, added then grown.
-  // Scenario B (self-invest): balance compounds at (investReturn - drag); contribution = employee's own
-  // amount (optionally + employer cash if that toggle is on), optionally shrunk by income tax since PVD
-  // contributions are pre-tax and self-invested money is not.
-  function simulate(v){
-    const rows = [];
-    let salary = v.startSalary;
-    let pvdBal = v.existingBalance, pvdPrincipal = v.existingBalance;
-    let invBal = 0, invPrincipal = 0;
-    let empCum = 0, erCum = 0, forfeitFV = 0;
-    const netInvestReturn = Math.max(-0.99, v.investReturn - v.drag);
-
-    for(let age=v.startAge; age<=v.endAge; age++){
-      if(age>v.startAge){ salary = salary * (1+v.salaryGrowth); }
-      const empC = salary * v.pvdEmployeeRate;
-      const erC  = salary * v.pvdEmployerRate;
-      const pvdContribTotal = empC + erC;
-
-      pvdBal = (pvdBal + pvdContribTotal) * (1 + v.pvdReturn);
-      pvdPrincipal += pvdContribTotal;
-      empCum += empC; erCum += erC;
-
-      let selfContribGross = empC + (v.employerCash ? erC : 0);
-      const selfContrib = v.taxOn ? selfContribGross * (1 - v.taxRate) : selfContribGross;
-      invBal = (invBal + selfContrib) * (1 + netInvestReturn);
-      invPrincipal += selfContrib;
-
-      forfeitFV = v.employerCash ? 0 : (forfeitFV + erC) * (1 + v.pvdReturn);
-
-      rows.push({
-        age, salary, empC, erC, pvdContribTotal, pvdBal, pvdPrincipal, pvdGrowth: pvdBal - pvdPrincipal,
-        selfContrib, invBal, invPrincipal, invGrowth: invBal - invPrincipal,
-        gap: invBal - pvdBal, forfeitFV
-      });
-    }
-    return rows;
-  }
-
-  // Final self-invest balance at an arbitrary gross return rate (for sensitivity / break-even), all else equal.
-  function selfFinalAtRate(v, rate){
-    let salary = v.startSalary, invBal = 0;
-    const netRate = Math.max(-0.99, rate - v.drag);
-    for(let age=v.startAge; age<=v.endAge; age++){
-      if(age>v.startAge){ salary = salary * (1+v.salaryGrowth); }
-      const empC = salary * v.pvdEmployeeRate;
-      const erC  = salary * v.pvdEmployerRate;
-      let selfContribGross = empC + (v.employerCash ? erC : 0);
-      const selfContrib = v.taxOn ? selfContribGross * (1 - v.taxRate) : selfContribGross;
-      invBal = (invBal + selfContrib) * (1 + netRate);
-    }
-    return invBal;
-  }
-
-  function breakEvenRate(v, pvdFinal){
-    let lo = -0.20, hi = 0.60;
-    for(let i=0;i<60;i++){
-      const mid = (lo+hi)/2;
-      const val = selfFinalAtRate(v, mid);
-      if(val < pvdFinal) lo = mid; else hi = mid;
-    }
-    return (lo+hi)/2;
-  }
+  // ---------------- tested monthly calculation engine ----------------
+  function simulate(v){ return PVDCalculator.simulate(v); }
+  function selfFinalAtRate(v, rate){ return PVDCalculator.investmentFinalAtRate(v, rate); }
+  function breakEvenRate(v, pvdFinal){ return PVDCalculator.breakEvenRate(v, pvdFinal); }
 
   // ---------------- chart helpers ----------------
   function themeColors(){
@@ -1095,6 +1175,7 @@
       axis: dark ? '#8E8E93' : '#AEAEB2',
       blue: '#0071E3', blueSoft: dark ? 'rgba(0,113,227,0.30)' : 'rgba(0,113,227,0.16)',
       purple: '#AF52DE', purpleSoft: dark ? 'rgba(175,82,222,0.30)' : 'rgba(175,82,222,0.16)',
+      hold: '#12A594', holdSoft: dark ? 'rgba(18,165,148,0.28)' : 'rgba(18,165,148,0.14)',
       green: '#2FB350', orange: '#FF9F0A', red:'#FF3B30', ink: dark ? '#F5F5F7' : '#1D1D1F'
     };
   }
@@ -1115,14 +1196,14 @@
     return (val/1000000>=1? (val/1000000).toFixed(1)+'M' : Math.round(val/1000)+'K');
   }
 
-  // ---------------- trajectory chart (dual line + leader band) ----------------
+  // ---------------- trajectory chart (three paths) ----------------
   function drawTrajectory(rows){
     const svg = $('chartTrajectory'); svg.innerHTML='';
     const C = themeColors();
     const W=900,H=300, padL=54, padB=28, padT=14, padR=14;
     const plotW=W-padL-padR, plotH=H-padT-padB;
     const n = rows.length;
-    const maxV = niceMax(Math.max(1, ...rows.map(r=>Math.max(r.pvdBal, r.invBal))));
+    const maxV = niceMax(Math.max(1, ...rows.map(r=>Math.max(r.pvdBalance, r.investAddBalance, r.investHoldBalance))));
     const x = i => padL + (n<=1?0:i*(plotW/(n-1)));
     const y = val => padT + plotH - (Math.max(0,val)/maxV)*plotH;
 
@@ -1134,27 +1215,17 @@
       svg.appendChild(lbl);
     }
 
-    // leader band: split into runs of consistent leader
-    let i=0;
-    while(i<n-1){
-      const leaderInv = rows[i].gap >= 0;
-      let j=i;
-      while(j<n-1 && (rows[j].gap>=0)===leaderInv) j++;
-      let d = 'M '+x(i)+' '+y(rows[i].pvdBal);
-      for(let k=i;k<=j;k++) d += ' L '+x(k)+' '+y(rows[k].pvdBal);
-      for(let k=j;k>=i;k--) d += ' L '+x(k)+' '+y(rows[k].invBal);
-      d += ' Z';
-      svg.appendChild(svgEl('path',{d, fill: leaderInv ? C.purpleSoft : C.blueSoft, stroke:'none'}));
-      i=j;
+    function drawLine(key, color, dash){
+      let d = 'M '+x(0)+' '+y(rows[0][key]);
+      rows.slice(1).forEach((r,idx)=>{ d += ' L '+x(idx+1)+' '+y(r[key]); });
+      const attrs = {d, fill:'none', stroke:color, 'stroke-width':2.5, 'stroke-linejoin':'round', 'stroke-linecap':'round'};
+      if(dash) attrs['stroke-dasharray'] = dash;
+      svg.appendChild(svgEl('path',attrs));
+      svg.appendChild(svgEl('circle',{cx:x(n-1),cy:y(rows[n-1][key]),r:4,fill:color,stroke:'var(--paper-solid)','stroke-width':2}));
     }
-
-    let dPvd = 'M '+x(0)+' '+y(rows[0].pvdBal);
-    rows.forEach((r,idx)=>{ dPvd += ' L '+x(idx)+' '+y(r.pvdBal); });
-    svg.appendChild(svgEl('path',{d:dPvd, fill:'none', stroke:C.blue, 'stroke-width':2.5}));
-
-    let dInv = 'M '+x(0)+' '+y(rows[0].invBal);
-    rows.forEach((r,idx)=>{ dInv += ' L '+x(idx)+' '+y(r.invBal); });
-    svg.appendChild(svgEl('path',{d:dInv, fill:'none', stroke:C.purple, 'stroke-width':2.5}));
+    drawLine('pvdBalance', C.blue);
+    drawLine('investAddBalance', C.purple);
+    drawLine('investHoldBalance', C.hold, '6,4');
 
     const step = Math.max(1, Math.ceil(n/12));
     rows.forEach((r,idx)=>{
@@ -1168,20 +1239,21 @@
 
   // ---------------- composition chart: two stacked bars ----------------
   // Uses aggregate cumulative totals (empCum/erCum) computed in compute().
-  function drawCompositionFinal(rows, empCum, erCum){
+  function drawCompositionFinal(result){
     const svg = $('chartComposition'); svg.innerHTML='';
     const C = themeColors();
-    const last = rows[rows.length-1];
-    const W=420, padL=92, padR=16, padT=20, padB=16;
-    const barH = 46, gapY = 78;
-    const maxV = niceMax(Math.max(1, last.pvdBal, last.invBal));
+    const last = result.final, totals = result.totals, v = result.values;
+    const W=420, padL=102, padR=16, padT=16;
+    const barH = 34, gapY = 58;
+    const maxV = niceMax(Math.max(1, last.pvdBalance, last.investAddBalance, last.investHoldBalance));
     const plotW = W-padL-padR;
     const xv = val => (Math.max(0,val)/maxV)*plotW;
 
     const legend = $('compLegend'); legend.innerHTML='';
-    [{label:'Employee contribution', color:C.blue},
-     {label:'Employer contribution', color:C.purple},
-     {label:'Investment growth', color:C.green}].forEach(li=>{
+    [{label:'Starting capital', color:'#8E8E93'},
+     {label:'Your additions', color:C.blue},
+     {label:'Employer money', color:C.orange},
+     {label:'Growth', color:C.green}].forEach(li=>{
       const s = document.createElement('span');
       s.innerHTML = `<i style="background:${li.color}"></i>${li.label}`;
       legend.appendChild(s);
@@ -1194,7 +1266,7 @@
       svg.appendChild(svgEl('rect',{x:padL,y:y0,width:plotW,height:barH,rx:8,fill:C.grid}));
       let cx = padL;
       segs.forEach(s=>{
-        const w = xv(s.val);
+        const w = Math.max(0, Math.min(plotW-(cx-padL), xv(Math.max(0,s.val))));
         if(w>0.5){ svg.appendChild(svgEl('rect',{x:cx,y:y0,width:w,height:barH,fill:s.color})); }
         cx += w;
       });
@@ -1205,17 +1277,25 @@
     }
 
     bar(padT, 'PVD', [
-      {val:empCum, color:C.blue},
-      {val:erCum, color:C.purple},
-      {val:last.pvdGrowth, color:C.green}
-    ], last.pvdBal);
+      {val:v.existingPvd, color:'#8E8E93'},
+      {val:totals.pvdEmployee, color:C.blue},
+      {val:totals.pvdEmployer, color:C.orange},
+      {val:last.pvdGrowth, color:last.pvdGrowth>=0?C.green:C.red}
+    ], last.pvdBalance);
 
-    bar(padT+gapY, 'Self-invest', [
-      {val:last.invPrincipal, color:C.blue},
-      {val:last.invGrowth, color:C.green}
-    ], last.invBal);
+    bar(padT+gapY, 'Invest + add', [
+      {val:v.existingInvestment, color:'#8E8E93'},
+      {val:totals.investOwn, color:C.blue},
+      {val:totals.investEmployerCash, color:C.orange},
+      {val:last.investAddGrowth, color:last.investAddGrowth>=0?C.green:C.red}
+    ], last.investAddBalance);
 
-    svg.setAttribute('viewBox','0 0 '+W+' '+(padT+gapY+barH+20));
+    bar(padT+gapY*2, 'No add', [
+      {val:v.existingInvestment, color:'#8E8E93'},
+      {val:last.investHoldGrowth, color:last.investHoldGrowth>=0?C.green:C.red}
+    ], last.investHoldBalance);
+
+    svg.setAttribute('viewBox','0 0 '+W+' '+(padT+gapY*2+barH+20));
   }
 
   // ---------------- break-even sensitivity chart ----------------
@@ -1225,7 +1305,10 @@
     const W=420,H=220, padL=52, padB=26, padT=12, padR=12;
     const plotW=W-padL-padR, plotH=H-padT-padB;
 
-    const rMin=0, rMax=0.20, steps=20;
+    const safeBreakEven = Number.isFinite(beRate) ? beRate : null;
+    const rMin = Math.min(-0.20, Math.floor(v.investReturn*10)/10);
+    const rMax = Math.min(2, Math.max(0.20, v.investReturn*1.25, safeBreakEven===null?0:safeBreakEven*1.15));
+    const steps=28;
     const pts = [];
     for(let i=0;i<=steps;i++){
       const r = rMin + (rMax-rMin)*i/steps;
@@ -1252,8 +1335,8 @@
     svg.appendChild(svgEl('path',{d, fill:'none', stroke:C.purple, 'stroke-width':2.5}));
 
     // break-even marker
-    if(beRate>=rMin && beRate<=rMax){
-      const bx = x(beRate), by = y(pvdFinal);
+    if(safeBreakEven!==null && safeBreakEven>=rMin && safeBreakEven<=rMax){
+      const bx = x(safeBreakEven), by = y(pvdFinal);
       svg.appendChild(svgEl('line',{x1:bx,x2:bx,y1:padT,y2:plotH+padT,stroke:C.orange,'stroke-width':1,'stroke-dasharray':'3,3'}));
       svg.appendChild(svgEl('circle',{cx:bx,cy:by,r:4.5,fill:C.orange}));
     }
@@ -1275,17 +1358,18 @@
     }
   }
 
-  // ---------------- real (inflation-adjusted) dual chart ----------------
+  // ---------------- real (inflation-adjusted) three-path chart ----------------
   function drawReal(rows, v){
     const svg = $('chartReal'); svg.innerHTML='';
     const C = themeColors();
     const W=900,H=220, padL=54, padB=28, padT=12, padR=14;
     const plotW=W-padL-padR, plotH=H-padT-padB;
-    const infl = parseFloat(els.inflation.value)/100;
+    const infl = v.inflation;
     const n = rows.length;
-    const realPvd = rows.map(r => r.pvdBal / Math.pow(1+infl, r.age - v.startAge));
-    const realInv = rows.map(r => r.invBal / Math.pow(1+infl, r.age - v.startAge));
-    const maxV = niceMax(Math.max(1, ...rows.map(r=>Math.max(r.pvdBal,r.invBal))));
+    const realPvd = rows.map(r => r.pvdBalance / Math.pow(1+infl, r.year));
+    const realInv = rows.map(r => r.investAddBalance / Math.pow(1+infl, r.year));
+    const realHold = rows.map(r => r.investHoldBalance / Math.pow(1+infl, r.year));
+    const maxV = niceMax(Math.max(1, ...realPvd, ...realInv, ...realHold));
     const x = i => padL + (n<=1?0:i*(plotW/(n-1)));
     const y = val => padT + plotH - (Math.max(0,val)/maxV)*plotH;
 
@@ -1297,13 +1381,16 @@
       svg.appendChild(lbl);
     }
 
-    let dPvd='M '+x(0)+' '+y(realPvd[0]);
-    realPvd.forEach((val,i)=>{ dPvd += ' L '+x(i)+' '+y(val); });
-    svg.appendChild(svgEl('path',{d:dPvd, fill:'none', stroke:C.blue, 'stroke-width':2.5}));
-
-    let dInv='M '+x(0)+' '+y(realInv[0]);
-    realInv.forEach((val,i)=>{ dInv += ' L '+x(i)+' '+y(val); });
-    svg.appendChild(svgEl('path',{d:dInv, fill:'none', stroke:C.purple, 'stroke-width':2.5}));
+    function realLine(values, color, dash){
+      let d='M '+x(0)+' '+y(values[0]);
+      values.slice(1).forEach((val,i)=>{ d += ' L '+x(i+1)+' '+y(val); });
+      const attrs={d,fill:'none',stroke:color,'stroke-width':2.5,'stroke-linejoin':'round','stroke-linecap':'round'};
+      if(dash) attrs['stroke-dasharray']=dash;
+      svg.appendChild(svgEl('path',attrs));
+    }
+    realLine(realPvd,C.blue);
+    realLine(realInv,C.purple);
+    realLine(realHold,C.hold,'6,4');
 
     const step = Math.max(1, Math.ceil(n/12));
     rows.forEach((r,i)=>{
@@ -1320,101 +1407,114 @@
     rows.forEach((r,i)=>{
       const tr = document.createElement('tr');
       if((i+1)%5===0 || i===rows.length-1) tr.classList.add('milestone');
-      const gapCls = r.gap>=0 ? 'win-inv' : 'win-pvd';
-      tr.innerHTML = `<td>${r.age}</td><td>${fmt(r.salary)}</td><td>${fmt(r.empC)}</td><td>${fmt(r.erC)}</td><td>${fmt(r.pvdBal)}</td><td>${fmt(r.selfContrib)}</td><td>${fmt(r.invBal)}</td><td class="${gapCls}">${r.gap>=0?'+':''}${fmt(r.gap)}</td>`;
+      const gapCls = r.addVsPvdGap>=0 ? 'win-inv' : 'win-pvd';
+      tr.innerHTML = `<td>${r.age}</td><td>${fmt(r.salary)}</td><td>${fmt(r.pvdEmployee)}</td><td>${fmt(r.pvdEmployer)}</td><td>${fmt(r.pvdBalance)}</td><td>${fmt(r.investContribution)}</td><td>${fmt(r.investAddBalance)}</td><td>${fmt(r.investHoldBalance)}</td><td class="${gapCls}">${r.addVsPvdGap>=0?'+':''}${fmt(r.addVsPvdGap)}</td>`;
       body.appendChild(tr);
     });
   }
 
   let lastRows = [];
   $('exportCsv').addEventListener('click', ()=>{
-    const header = 'Age,Salary,PVD Employee,PVD Employer,PVD Balance,Self-Invest Contribution,Self-Invest Balance,Gap (SelfInvest-PVD)\n';
-    const csv = header + lastRows.map(r=>[r.age, r.salary.toFixed(2), r.empC.toFixed(2), r.erC.toFixed(2), r.pvdBal.toFixed(2), r.selfContrib.toFixed(2), r.invBal.toFixed(2), r.gap.toFixed(2)].join(',')).join('\n');
+    const header = 'Age,Salary,PVD Employee,PVD Employer,PVD Balance,Investment Additions,Investment Plus Add,Investment No Add,Gap (B-A)\n';
+    const csv = header + lastRows.map(r=>[r.age, r.salary.toFixed(2), r.pvdEmployee.toFixed(2), r.pvdEmployer.toFixed(2), r.pvdBalance.toFixed(2), r.investContribution.toFixed(2), r.investAddBalance.toFixed(2), r.investHoldBalance.toFixed(2), r.addVsPvdGap.toFixed(2)].join(',')).join('\n');
     const blob = new Blob([csv], {type:'text/csv'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = 'pvd-vs-self-invest.csv'; a.click();
+    a.href = url; a.download = 'pvd-vs-investment-scenarios.csv'; a.click();
     URL.revokeObjectURL(url);
   });
 
-  function buildInsights(v, last, beRate, forfeitFV){
+  function buildInsights(result, beRate){
     const grid = $('insightGrid'); grid.innerHTML='';
+    const v = result.values, last = result.final, totals = result.totals;
     const items = [];
-    const gap = last.invBal - last.pvdBal;
-    const winner = gap>=0 ? 'self-directed investing' : 'staying in PVD';
-    const winnerAmt = Math.abs(gap);
+    const paths = [
+      {name:'PVD', value:last.pvdBalance, icon:'blue'},
+      {name:'investment + additions', value:last.investAddBalance, icon:'purple'},
+      {name:'investment + no additions', value:last.investHoldBalance, icon:'hold'}
+    ].sort((a,b)=>b.value-a.value);
+    items.push(`<div class="insight"><span class="ico ${paths[0].icon}"></span><b>${paths[0].name}</b> finishes first, ahead of the next path by <b>${fmt(paths[0].value-paths[1].value)}</b>.</div>`);
 
-    items.push(`<div class="insight"><span class="ico">${gap>=0?'💜':'💙'}</span>At your current settings, <b>${winner}</b> comes out ahead by <b>${fmt(winnerAmt)}</b> at retirement.</div>`);
+    const addValue = last.investAddBalance-last.investHoldBalance;
+    items.push(`<div class="insight"><span class="ico purple"></span>Adding <b>${(v.investContributionRate*100).toFixed(1)}% of salary</b> contributes ${fmt(totals.investOwn)} of your money and changes the final investment value by <b>${fmt(addValue)}</b> versus adding nothing.</div>`);
 
     if(!v.employerCash){
-      items.push(`<div class="insight"><span class="ico">🎁</span>Opting out forfeits your employer's match. By retirement that forgone money would have grown to roughly <b>${fmt(forfeitFV)}</b> — a cost self-investing has to out-earn just to catch up.</div>`);
+      items.push(`<div class="insight"><span class="ico orange"></span>Outside PVD, the modeled employer contribution is forfeited. Its projected PVD value is <b>${fmt(totals.employerForfeitFutureValue)}</b> by retirement.</div>`);
+    } else {
+      items.push(`<div class="insight"><span class="ico orange"></span>Your employer-cash toggle is on, so Scenario B receives the employer percentage as taxable cash instead of forfeiting it.</div>`);
     }
 
-    const beText = beRate*100;
-    items.push(`<div class="insight"><span class="ico">🎯</span>To match PVD on its own, self-investing your contribution alone needs about <b>${beText.toFixed(1)}%/yr</b>, vs. the <b>${(v.investReturn*100).toFixed(1)}%/yr</b> you assumed.</div>`);
+    const beText = Number.isFinite(beRate) ? `<b>${(beRate*100).toFixed(1)}%/yr gross</b>` : '<b>not reachable within the model range</b>';
+    items.push(`<div class="insight"><span class="ico red"></span>With current starting balances and additions, Scenario B needs ${beText} to match PVD, versus your <b>${(v.investReturn*100).toFixed(1)}%/yr</b> assumption.</div>`);
 
-    if(v.taxOn){
-      items.push(`<div class="insight"><span class="ico">🧾</span>With a ${(v.taxRate*100).toFixed(0)}% marginal tax rate applied, self-investing effectively funds itself with less money each year, since PVD contributions are pre-tax and self-invested money is not.</div>`);
-    } else {
-      items.push(`<div class="insight"><span class="ico">🧾</span>PVD contributions are typically tax-deductible and grow tax-exempt. Turn on <b>“Account for income tax”</b> in the sidebar to see how that tilts the comparison.</div>`);
+    if(Math.abs(v.existingPvd-v.existingInvestment)>1){
+      items.push(`<div class="insight"><span class="ico"></span>Starting balances differ: PVD starts at <b>${fmt(v.existingPvd)}</b> and both investment paths start at <b>${fmt(v.existingInvestment)}</b>. This is a personal account projection, not an equal-start experiment.</div>`);
     }
 
     grid.innerHTML = items.join('');
   }
 
   function compute(){
-    const v = readValues();
+    const result = simulate(readValues());
+    const v = result.values, rows = result.rows, last = result.final, totals = result.totals;
     updateReadouts(v);
-    const rows = simulate(v);
     lastRows = rows;
-    const last = rows[rows.length-1];
-    const empCumTotal = rows.reduce((s,r)=>s+r.empC,0);
-    const erCumTotal = rows.reduce((s,r)=>s+r.erC,0);
+    const beRate = breakEvenRate(v, last.pvdBalance);
+    const netInvestReturn = v.investReturn-v.drag;
 
-    const beRate = breakEvenRate(v, last.pvdBal);
+    $('modelPvd').textContent = fmt(v.existingPvd)+' start · '+(v.pvdEmployeeRate*100).toFixed(1)+'% you + '+(v.pvdEmployerRate*100).toFixed(1)+'% employer · '+(v.pvdReturn*100).toFixed(1)+'% net return';
+    $('modelInvestAdd').textContent = fmt(v.existingInvestment)+' start · '+(v.investContributionRate*100).toFixed(1)+'% added · '+(netInvestReturn*100).toFixed(1)+'% net return';
+    $('modelInvestHold').textContent = fmt(v.existingInvestment)+' start · 0% added · '+(netInvestReturn*100).toFixed(1)+'% net return';
 
-    // scoreboard
-    $('out-pvd').textContent = fmt(last.pvdBal);
-    $('out-pvd-sub').textContent = 'Employee '+fmt(empCumTotal)+' + Employer '+fmt(erCumTotal)+' + growth '+fmt(last.pvdGrowth);
-    $('out-inv').textContent = fmt(last.invBal);
-    $('out-inv-sub').textContent = 'Contributed '+fmt(last.invPrincipal)+' + growth '+fmt(last.invGrowth);
+    const isFair = Math.abs(v.investContributionRate-v.pvdEmployeeRate)<0.00001;
+    $('parityCallout').classList.toggle('is-fair',isFair);
+    $('parityText').innerHTML = isFair
+      ? '<b>Personal cash-flow rates match.</b> PVD and investment + add both start from '+(v.pvdEmployeeRate*100).toFixed(1)+'% of salary before the simplified tax adjustment.'
+      : '<b>Different personal savings budgets.</b> PVD uses '+(v.pvdEmployeeRate*100).toFixed(1)+'% of salary while investment + add uses '+(v.investContributionRate*100).toFixed(1)+'%.';
+    $('matchContribution').hidden = isFair;
 
-    const total = last.pvdBal + last.invBal;
-    const pvdPct = total>0 ? Math.round(last.pvdBal/total*100) : 50;
-    const invPct = 100-pvdPct;
-    $('gap-fill-pvd').style.width = pvdPct+'%';
-    $('gap-fill-inv').style.width = invPct+'%';
-    const gap = last.invBal - last.pvdBal;
-    $('gap-label').textContent = gap>=0 ? 'Self-invest leads' : 'PVD leads';
-    $('gap-pct').textContent = (gap>=0?'+':'') + fmt(gap);
-    $('crown-pvd').classList.toggle('show', gap<0);
-    $('crown-inv').classList.toggle('show', gap>=0);
+    $('out-pvd').textContent = fmt(last.pvdBalance);
+    $('out-pvd-sub').textContent = 'Start '+fmt(v.existingPvd)+' · You '+fmt(totals.pvdEmployee)+' · Employer '+fmt(totals.pvdEmployer)+' · Growth '+fmt(last.pvdGrowth);
+    $('out-inv').textContent = fmt(last.investAddBalance);
+    $('out-inv-sub').textContent = 'Start '+fmt(v.existingInvestment)+' · Added '+fmt(totals.investOwn+totals.investEmployerCash)+' · Growth '+fmt(last.investAddGrowth);
+    $('out-hold').textContent = fmt(last.investHoldBalance);
+    $('out-hold-sub').textContent = 'Start '+fmt(v.existingInvestment)+' · Added '+fmt(0)+' · Growth '+fmt(last.investHoldGrowth);
 
-    // KPIs
-    $('kpi-pvd').textContent = fmt(last.pvdBal);
-    $('kpi-pvd-sub').textContent = (v.endAge-v.startAge)+' yrs · '+(v.pvdReturn*100).toFixed(1)+'%/yr fund return';
-    $('kpi-inv').textContent = fmt(last.invBal);
-    $('kpi-inv-sub').textContent = (v.endAge-v.startAge)+' yrs · '+(v.investReturn*100).toFixed(1)+'%/yr, '+(v.drag*100).toFixed(1)+'% drag';
-    const gapEl = $('kpi-gap');
-    gapEl.textContent = (gap>=0?'+':'') + fmt(gap);
-    gapEl.className = 'kpi-value ' + (gap>=0 ? 'c-purple' : 'c-blue');
-    $('kpi-gap-sub').textContent = gap>=0 ? 'in favor of self-investing' : 'in favor of staying in PVD';
-    $('kpi-forfeit').textContent = v.employerCash ? fmt(0) : fmt(last.forfeitFV);
-    $('kpi-forfeit-sub').textContent = v.employerCash ? 'Employer pays match as cash — nothing forfeited' : 'Future value of employer money you\u2019d give up';
-    $('kpi-breakeven').textContent = (beRate*100).toFixed(1)+'%';
-    $('kpi-breakeven-sub').textContent = 'vs. your assumed '+(v.investReturn*100).toFixed(1)+'%/yr';
-    const winPrincipal = gap>=0 ? last.invPrincipal : last.pvdPrincipal;
-    const winBalance = gap>=0 ? last.invBal : last.pvdBal;
-    $('kpi-multiple').textContent = (winPrincipal>0 ? (winBalance/winPrincipal) : 1).toFixed(2)+'\u00d7';
-    $('kpi-multiple-sub').textContent = (gap>=0?'Self-invest':'PVD')+' balance \u00f7 money put in';
+    const paths = [
+      {id:'pvd',name:'PVD',value:last.pvdBalance},
+      {id:'inv',name:'Investment + add',value:last.investAddBalance},
+      {id:'hold',name:'Investment + no add',value:last.investHoldBalance}
+    ];
+    const total = paths.reduce((sum,path)=>sum+Math.max(0,path.value),0);
+    paths.forEach(path=>{
+      $("gap-fill-"+path.id).style.width = (total>0?Math.max(0,path.value)/total*100:100/3)+'%';
+      $('crown-'+path.id).classList.remove('show');
+    });
+    const ranked = [...paths].sort((a,b)=>b.value-a.value);
+    $('crown-'+ranked[0].id).classList.add('show');
+    $('gap-label').textContent = ranked[0].name+' leads';
+    $('gap-pct').textContent = fmt(ranked[0].value-ranked[1].value)+' vs next';
 
-    buildInsights(v, last, beRate, last.forfeitFV);
+    $('kpi-pvd').textContent = fmt(last.pvdBalance);
+    $('kpi-pvd-sub').textContent = (v.endAge-v.startAge)+' yrs · '+(v.pvdReturn*100).toFixed(1)+'%/yr net';
+    $('kpi-inv').textContent = fmt(last.investAddBalance);
+    $('kpi-inv-sub').textContent = (v.investContributionRate*100).toFixed(1)+'% added · '+(netInvestReturn*100).toFixed(1)+'%/yr net';
+    $('kpi-hold').textContent = fmt(last.investHoldBalance);
+    $('kpi-hold-sub').textContent = 'No additions · '+(netInvestReturn*100).toFixed(1)+'%/yr net';
+    $('kpi-forfeit').textContent = v.employerCash ? fmt(0) : fmt(totals.employerForfeitFutureValue);
+    $('kpi-forfeit-sub').textContent = v.employerCash ? 'Employer cash is included in Scenario B' : 'Projected PVD value of employer money not received';
+    $('kpi-breakeven').textContent = Number.isFinite(beRate) ? (beRate*100).toFixed(1)+'%' : 'N/A';
+    $('kpi-breakeven-sub').textContent = Number.isFinite(beRate) ? 'gross return vs. assumed '+(v.investReturn*100).toFixed(1)+'%' : 'Investment path cannot reach PVD in the search range';
+    $('kpi-add-value').textContent = fmt(last.investAddBalance-last.investHoldBalance);
+    $('kpi-add-value-sub').textContent = fmt(totals.investOwn+totals.investEmployerCash)+' added over '+(v.endAge-v.startAge)+' years';
 
+    buildInsights(result, beRate);
     drawTrajectory(rows);
-    drawCompositionFinal(rows, empCumTotal, erCumTotal);
-    drawSensitivity(v, last.pvdBal, beRate);
+    drawCompositionFinal(result);
+    drawSensitivity(v, last.pvdBalance, beRate);
     drawReal(rows, v);
     renderTable(rows);
+    persistSettings();
   }
 
   compute();
