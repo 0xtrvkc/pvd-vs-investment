@@ -1,0 +1,9 @@
+{
+  "name": "pvd-vs-investment",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Three-path PVD and investment retirement simulator",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}
